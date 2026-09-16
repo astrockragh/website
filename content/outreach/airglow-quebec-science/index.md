@@ -10,6 +10,8 @@ abstract: I was interviewed about my work on understanding the way the Earths at
 date: '2025-02-03'
 url_pdf: https://www.spiedigitallibrary.org/conference-proceedings-of-spie/13096/3018016/Airglow-and-the-Subaru-Night-Sky-Spectrograph-SuNSS/10.1117/12.3018016.full
 image: featured.png
+aliases:
+- /press_public/airglow_quebec_science/
 ---
 
 <!-- 

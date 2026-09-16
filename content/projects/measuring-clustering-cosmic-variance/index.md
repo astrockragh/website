@@ -26,6 +26,8 @@ links:
   url: https://ui.adsabs.harvard.edu/abs/2025arXiv251214212W/exportcitation
 url_pdf: https://arxiv.org/pdf/2512.14212
 image: featured.png
+aliases:
+- /project/measuring_clustering_cosmic_variance/
 ---
 
 One of the most exciting things happening in astronomy right now is the amazing and unexpected abundance of galaxies in the extremely early Universe, what we call **Cosmic Dawn**!

@@ -23,6 +23,9 @@ links:
 url_pdf: https://arxiv.org/pdf/2403.00050
 image: featured.png
 light_figure: true
+aliases:
+- /project/most_massive_jwst-/
+- /project/most_massive_jwst/
 ---
 
 ![Clustering, or cosmic variance, greatly impacts the observed distribution of massive galaxies at high redshift!](demo.png)

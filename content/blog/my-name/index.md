@@ -7,6 +7,8 @@ lastmod: '2024-10-03T00:00:00Z'
 draft: false
 featured: false
 image: featured.png
+aliases:
+- /post/my_name/
 ---
 
 ### What is my name?

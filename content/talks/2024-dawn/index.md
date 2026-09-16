@@ -11,5 +11,7 @@ projects:
 - mangrove
 - gnn-environment
 image: featured.png
+aliases:
+- /talk/2024_dawn/
 ---
 

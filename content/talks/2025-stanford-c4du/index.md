@@ -18,5 +18,8 @@ projects:
 - mangrove
 - gnn-environment
 image: featured.png
+aliases:
+- /talk/2025_stanford_c4du-copy/
+- /talk/2025_stanford_c4du/
 ---
 

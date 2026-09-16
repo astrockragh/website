@@ -15,6 +15,8 @@ url_code: https://github.com/astrockragh/troels_projekt
 url_pdf: /projects/puk-troels/PUK_med_Troels.pdf
 image: featured.png
 light_figure: true
+aliases:
+- /project/puk_troels/
 ---
 
 This project was done in collaboration with [Jonas Vinther](https://github.com/Vinther901), [Johann Bock Severin](https://github.com/JohannSeverin) and [Jakob H. Schauser](https://github.com/JakobSchauser) during our third semester as physics undergraduates. Check out their GitHubs!

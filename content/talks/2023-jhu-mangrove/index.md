@@ -10,5 +10,7 @@ tags:
 projects:
 - mangrove
 image: featured.png
+aliases:
+- /talk/2023_jhu_mangrove/
 ---
 

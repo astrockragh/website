@@ -29,6 +29,8 @@ links:
   url: https://ui.adsabs.harvard.edu/abs/2025arXiv250303816J/exportcitation
 url_pdf: https://arxiv.org/pdf/2503.03816
 image: featured.jpg
+aliases:
+- /project/ir_optical/
 ---
 
 <!-- 

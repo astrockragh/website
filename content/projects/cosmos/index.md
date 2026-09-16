@@ -12,6 +12,8 @@ draft: false
 featured: false
 url_pdf: https://arxiv.org/pdf/2110.13923.pdf
 image: featured.jpg
+aliases:
+- /project/cosmos/
 ---
 
 ## The two CATALOGS: https://cosmos2020.calet.org/ 

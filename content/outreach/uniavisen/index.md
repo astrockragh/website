@@ -8,6 +8,8 @@ abstract: We were interviewed by the university newspaper https://uniavisen.dk/e
 date: '2020-08-14'
 url_pdf: https://arxiv.org/pdf/2005.13554.pdf
 image: featured.jpeg
+aliases:
+- /press_public/uniavisen/
 ---
 
 <!-- 

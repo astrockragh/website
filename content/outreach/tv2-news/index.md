@@ -13,6 +13,8 @@ abstract: 'We were interviewed by one of the two main Danish channels about our 
 date: '2020-08-21'
 url_pdf: https://arxiv.org/pdf/2005.13554.pdf
 image: featured.png
+aliases:
+- /press_public/tv2_news/
 ---
 
 <!-- 

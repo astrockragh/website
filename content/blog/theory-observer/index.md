@@ -9,6 +9,8 @@ lastmod: '2024-10-03T00:00:00Z'
 draft: false
 featured: false
 image: featured.png
+aliases:
+- /post/theory_observer/
 ---
 
 A question that many astronomers often ask is whether a given person is an _observer_ or a _theorist_. This bimodal view of our discipline is quite outdated, but nonetheless persistent. Below I give a short overview of some of the considerations people make when evaluating my position in the field, considerations that I make when answering the question, and how I see my own role.

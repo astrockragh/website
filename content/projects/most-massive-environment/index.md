@@ -30,6 +30,8 @@ links:
 url_pdf: https://arxiv.org/pdf/2507.05340
 image: featured.jpg
 light_figure: true
+aliases:
+- /project/most_massive_environment/
 ---
 
 # Explaining the masses of ultra-massive "universe-breaking" galaxies

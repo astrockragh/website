@@ -14,6 +14,8 @@ url_code: https://github.com/astrockragh/GRB_TSNE
 url_pdf: https://iopscience.iop.org/article/10.3847/2041-8213/ab964d/pdf
 image: featured.jpg
 light_figure: true
+aliases:
+- /project/tsne_grb/
 ---
 
 The duration of a gamma-ray burst (GRB) is a key indicator of its physical origin, with long bursts perhaps associated with the collapse of massive stars (also known as supernovae) and short bursts with mergers of neutron stars (kilonovae). 

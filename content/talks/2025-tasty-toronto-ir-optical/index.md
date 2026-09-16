@@ -11,5 +11,7 @@ tags:
 projects:
 - ir-optical
 image: featured.jpg
+aliases:
+- /talk/2025_tasty_toronto_ir_optical/
 ---
 

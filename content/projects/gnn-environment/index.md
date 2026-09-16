@@ -32,6 +32,8 @@ links:
 url_pdf: https://arxiv.org/pdf/2402.07995
 image: featured.png
 light_figure: true
+aliases:
+- /project/gnn_environment/
 ---
 
 To preface all of this, this work, consisting of two projects, was led by the incomparable [John F. Wu](https://jwuphysics.github.io/) at STScI/JHU, and it was a joy to work with him on this! Now on to the research.

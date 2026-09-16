@@ -11,5 +11,8 @@ projects:
 - most-massive-jwst
 - most-massive-environment
 image: featured.png
+aliases:
+- /talk/2025_perimeter-copy/
+- /talk/2025_perimeter/
 ---
 

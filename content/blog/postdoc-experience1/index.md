@@ -8,6 +8,8 @@ lastmod: '2026-03-13T00:00:00Z'
 draft: false
 featured: false
 image: featured.png
+aliases:
+- /post/postdoc_experience1/
 ---
 
 Having just gone through the gruelling experience of applying for postdoctoral positions, I wanted to jot down a few lessons learned and reflections. I will try to focus on what I personally was surprised by and would have liked to know a little ahead of time. I will primarily cover things that I did not really find elsewhere (e.g., "make sure you have good letter writers" is important, but you can find that advice anywhere).

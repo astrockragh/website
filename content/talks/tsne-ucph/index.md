@@ -27,6 +27,8 @@ url_pdf: https://ui.adsabs.harvard.edu/abs/2020ApJ...896L..20J/abstract
 projects:
 - tsne-grb
 image: featured.jpg
+aliases:
+- /talk/tsne_ucph/
 ---
 
 <!-- 

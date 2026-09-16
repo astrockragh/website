@@ -11,5 +11,7 @@ projects:
 - gnn-environment
 - ir-optical
 image: featured.png
+aliases:
+- /talk/2025_ut_austin/
 ---
 

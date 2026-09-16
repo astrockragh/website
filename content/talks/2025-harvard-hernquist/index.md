@@ -12,5 +12,7 @@ projects:
 - gnn-environment
 - most-massive-environment
 image: featured.png
+aliases:
+- /talk/2025_harvard_hernquist/
 ---
 

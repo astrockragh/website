@@ -23,5 +23,7 @@ featured: false
 tags:
 - Contributed
 image: featured.jpg
+aliases:
+- /talk/2025_bristol_sbi/
 ---
 

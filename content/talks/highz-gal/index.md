@@ -11,5 +11,7 @@ tags:
 projects:
 - high-z-jwst
 url_code: https://ui.adsabs.harvard.edu/abs/2021ApJ...923....8S/abstract
+aliases:
+- /talk/highz_gal/
 ---
 

@@ -12,5 +12,7 @@ projects:
 - gnn-environment
 url_code: https://colab.research.google.com/drive/1K6fvzUP33UWkXWoYxi5nt1ITwjXYHm5t
 image: featured.png
+aliases:
+- /talk/2025_harvard_astroai_gnn/
 ---
 

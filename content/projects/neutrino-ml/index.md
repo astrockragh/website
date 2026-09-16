@@ -16,6 +16,8 @@ url_code: https://github.com/astrockragh/icecube
 url_pdf: /projects/neutrino-ml/Bachelor_Project.pdf
 image: featured.png
 light_figure: true
+aliases:
+- /project/neutrino_ml/
 ---
 
 This Bachelors Thesis was done in collaboration with [Jonas Vinther](https://github.com/Vinther901), [Johann Bock Severin](https://github.com/JohannSeverin) and [Jakob H. Schauser](https://github.com/JakobSchauser) during our sixth semester as physics undergraduates. Check out their GitHubs!

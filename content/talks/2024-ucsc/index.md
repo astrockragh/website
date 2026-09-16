@@ -22,5 +22,7 @@ featured: false
 tags:
 - Contributed
 image: featured.png
+aliases:
+- /talk/2024_ucsc/
 ---
 

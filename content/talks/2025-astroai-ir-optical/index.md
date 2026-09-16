@@ -12,5 +12,7 @@ tags:
 projects:
 - ir-optical
 image: featured.jpg
+aliases:
+- /talk/2025_astroai_ir_optical/
 ---
 

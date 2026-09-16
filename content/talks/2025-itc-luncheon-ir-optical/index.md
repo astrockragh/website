@@ -11,5 +11,7 @@ projects:
 - ir-optical
 url_pdf: https://ui.adsabs.harvard.edu/abs/2025arXiv250303816J/abstract
 image: featured.png
+aliases:
+- /talk/2025_itc_luncheon_ir_optical/
 ---
 

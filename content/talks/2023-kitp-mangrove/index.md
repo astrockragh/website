@@ -10,6 +10,8 @@ tags:
 projects:
 - mangrove
 image: featured.png
+aliases:
+- /talk/2023_kitp_mangrove/
 ---
 
 Blackboard talk done for the 2023 "Building a physical understanding of galaxy evolution with data-driven astronomy" KITP workshop [https://datadrivengalaxyevolution.github.io/](https://datadrivengalaxyevolution.github.io/).

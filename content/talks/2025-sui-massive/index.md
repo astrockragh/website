@@ -19,5 +19,7 @@ projects:
 - most-massive-environment
 - most-massive-jwst
 image: featured.png
+aliases:
+- /talk/2025_sui_massive/
 ---
 

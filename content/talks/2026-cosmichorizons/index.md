@@ -18,5 +18,8 @@ projects:
 - mangrove
 - gnn-environment
 image: featured.png
+aliases:
+- /talk/2026_cosmichorizons-copy/
+- /talk/2026_cosmichorizons/
 ---
 

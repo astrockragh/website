@@ -9,5 +9,7 @@ tags:
 projects:
 - sunss-airglow
 image: featured.png
+aliases:
+- /talk/2024_subaru/
 ---
 

@@ -10,5 +10,7 @@ tags:
 projects:
 - most-massive-jwst
 image: featured.png
+aliases:
+- /talk/2024_cca_most_massive/
 ---
 

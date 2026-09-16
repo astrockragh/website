@@ -11,6 +11,8 @@ draft: false
 featured: false
 image: featured.png
 light_figure: true
+aliases:
+- /project/molecule_simulator/
 ---
 
 In our recent DIB ISM molecular identification paper, we model the absorption profiles of Diffuse Interstellar Bands using [PGOPHER](http://pgopher.chm.bris.ac.uk/), a molecular spectral simulation code for asymmetric top molecules. The model computes ro-vibrational band contours as a function of the three principal rotational constants (A, B, C), the rotational excitation temperature, ro-vibrational coupling fractions (f<sub>A</sub>, f<sub>B</sub>, f<sub>C</sub>), and line broadening parameters, under either C<sub>2v</sub> or C<sub>s</sub> molecular symmetry. For C<sub>s</sub> molecules, two transition dipole axes contribute to the profile, mixed by a ratio r<sub>BC</sub>. The direct absorption profile is shown alongside a temperature derivative profile, which encodes how the spectrum responds to small changes in rotational temperature --- a key observable that lets us break the long-standing degeneracy between molecular geometry and excitation temperature.

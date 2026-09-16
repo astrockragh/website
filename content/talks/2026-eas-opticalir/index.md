@@ -10,5 +10,7 @@ tags:
 projects:
 - ir-optical
 image: featured.jpg
+aliases:
+- /talk/2026_eas_opticalir/
 ---
 

@@ -36,6 +36,8 @@ url_code: https://github.com/astrockragh/Mangrove
 projects:
 - mangrove
 image: featured.png
+aliases:
+- /talk/dawn_mangrove/
 ---
 
 <!-- 

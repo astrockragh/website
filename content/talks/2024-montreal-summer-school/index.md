@@ -12,6 +12,8 @@ projects:
 - gnn-environment
 url_code: https://colab.research.google.com/drive/1zOxLB5QQAVqfR6FIjQ3YTRnRy0rGGaBO
 image: featured.png
+aliases:
+- /talk/2024_montreal_summer_school/
 ---
 
 This summer school lecture included two notebook tutorials, which can be found here:

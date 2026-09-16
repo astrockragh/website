@@ -10,6 +10,8 @@ draft: false
 featured: false
 url_code: https://github.com/astrockragh/postdoc_market_simulation
 image: featured.png
+aliases:
+- /post/postdoc_experience2/
 ---
 
 This is the second of two blog post about the post-doctoral job market. The [first one was rather qualitative](https://astrockragh.github.io/post/postdoc_experience1/) whereas this one is very quantitative. It has been inspired by my frustration in not knowing how many applications would be reasonable to send, and not finding useful, quantitative advice to answer that question. Of course one wants to send enough applications to elevate ones chances of getting a position, but sending applications is a huge time investment, so the trade-off has to be considered carefully. I for one ended up spending essentially half a year of full time effort on my applications, [as you can read about in another post](https://astrockragh.github.io/post/postdoc_experience1/), which, given how it turned out, was probably a bit too much.

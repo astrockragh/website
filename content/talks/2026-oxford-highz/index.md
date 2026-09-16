@@ -11,5 +11,7 @@ projects:
 - most-massive-jwst
 - most-massive-environment
 image: featured.png
+aliases:
+- /talk/2026_oxford_highz/
 ---
 

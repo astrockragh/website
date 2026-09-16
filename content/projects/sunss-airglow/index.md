@@ -25,6 +25,8 @@ links:
   url: https://ui.adsabs.harvard.edu/abs/2024SPIE13096E..79J/exportcitation
 url_pdf: https://www.spiedigitallibrary.org/conference-proceedings-of-spie/13096/3018016/Airglow-and-the-Subaru-Night-Sky-Spectrograph-SuNSS/10.1117/12.3018016.full#_=_
 image: featured.png
+aliases:
+- /project/sunss_airglow/
 ---
 
 As astronomy pushes towards ever fainter targets, at ever greater distances, in ever greater numbers, we are faced with a new series of problems which need solving.

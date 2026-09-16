@@ -10,5 +10,7 @@ tags:
 projects:
 - molecule-simulator
 image: featured.png
+aliases:
+- /talk/2026_sdss/
 ---
 

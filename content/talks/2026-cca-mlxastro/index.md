@@ -11,5 +11,8 @@ projects:
 - gnn-environment
 - ir-optical
 image: featured.png
+aliases:
+- /talk/2026_cca_mlxastro-copy/
+- /talk/2026_cca_mlxastro/
 ---
 

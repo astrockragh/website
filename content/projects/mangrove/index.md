@@ -17,6 +17,8 @@ url_code: https://github.com/astrockragh/Mangrove
 url_pdf: https://ui.adsabs.harvard.edu/search/p_=0&q=author%3A%22Jespersen%2C%20Christian%20K.%22&sort=date%20desc%2C%20bibcode%20desc
 image: featured.png
 light_figure: true
+aliases:
+- /project/mangrove/
 ---
 
 ![Mangrove's Logo](featured1.png)

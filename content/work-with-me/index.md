@@ -1,6 +1,8 @@
 ---
 title: Want to work with me?
 kicker: Students and collaborators
+aliases:
+- /workwithme/
 ---
 
 <img src="old.jpg" alt="Teaching about Graph Neural Networks at the Kavli Institute for Theoretical Physics in 2023" style="width: 60%; display: block; margin: 18pt auto;">
