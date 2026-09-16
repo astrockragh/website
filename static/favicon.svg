@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1b1d3a" />
+      <stop offset="100%" stop-color="#07070f" />
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#9db8ff" stop-opacity=".55" />
+      <stop offset="55%" stop-color="#6a63d8" stop-opacity=".3" />
+      <stop offset="100%" stop-color="#3b2a6b" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffdf3" />
+      <stop offset="30%" stop-color="#ffeaa8" />
+      <stop offset="65%" stop-color="#ffb44d" stop-opacity=".7" />
+      <stop offset="100%" stop-color="#ff8a3d" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="armA" x1="0%" y1="0%" x2="100%" y2="30%">
+      <stop offset="0%" stop-color="#dbe8ff" stop-opacity="0" />
+      <stop offset="45%" stop-color="#dbe8ff" stop-opacity=".9" />
+      <stop offset="100%" stop-color="#7d8ce8" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="armB" x1="100%" y1="100%" x2="0%" y2="70%">
+      <stop offset="0%" stop-color="#cfe0ff" stop-opacity="0" />
+      <stop offset="45%" stop-color="#cfe0ff" stop-opacity=".85" />
+      <stop offset="100%" stop-color="#8b74e0" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="32" cy="32" r="32" fill="url(#sky)" />
+
+  <!-- background stars, outside the disc -->
+  <g fill="#ffffff">
+    <circle cx="10" cy="12" r="1.1" opacity=".9" />
+    <circle cx="53" cy="14" r="0.9" opacity=".75" />
+    <circle cx="56" cy="45" r="1.1" opacity=".85" />
+    <circle cx="12" cy="50" r="0.85" opacity=".7" />
+    <circle cx="44" cy="7" r="0.7" opacity=".55" />
+    <circle cx="6" cy="33" r="0.7" opacity=".5" />
+    <circle cx="26" cy="58" r="0.8" opacity=".6" />
+  </g>
+
+  <!-- tilted disc: haze, then two sweeping arms -->
+  <g transform="rotate(-24 32 32)">
+    <ellipse cx="32" cy="32" rx="27" ry="12.5" fill="url(#halo)" />
+    <path d="M6 35 A 26 12.5 0 0 1 50 25" fill="none" stroke="url(#armA)" stroke-width="3.2" stroke-linecap="round" />
+    <path d="M58 29 A 26 12.5 0 0 1 14 39" fill="none" stroke="url(#armB)" stroke-width="3.2" stroke-linecap="round" />
+    <!-- knots of star formation along the arms -->
+    <g fill="#ffffff" opacity=".85">
+      <circle cx="15" cy="35.5" r="0.9" />
+      <circle cx="45" cy="27" r="0.8" />
+      <circle cx="49" cy="30.5" r="0.7" />
+      <circle cx="20" cy="37" r="0.7" />
+    </g>
+  </g>
+
+  <circle cx="32" cy="32" r="11" fill="url(#core)" />
+  <circle cx="32" cy="32" r="2.6" fill="#fffef7" />
+</svg>

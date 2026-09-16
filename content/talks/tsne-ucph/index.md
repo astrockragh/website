@@ -29,6 +29,8 @@ projects:
 image: featured.jpg
 aliases:
 - /talk/tsne_ucph/
+tags:
+- Contributed
 ---
 
 <!-- 

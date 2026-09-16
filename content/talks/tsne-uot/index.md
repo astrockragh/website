@@ -32,6 +32,8 @@ projects:
 image: featured.jpg
 aliases:
 - /talk/tsne_uot/
+tags:
+- Invited
 ---
 
 <!-- 

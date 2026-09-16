@@ -1,0 +1,28 @@
+{{ define "main" }}
+  {{/* GitHub Pages serves /404.html for any unmatched path, so this needs no
+       front matter and no content file. Old Wowchemy URLs are handled by
+       aliases and never reach here. */}}
+  <section class="section" style="padding-top:clamp(7rem,16vh,11rem)">
+    <div class="wrap wrap--wide">
+      <p class="section__eyebrow" style="color:var(--text-dim);font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase">Error 404</p>
+      <h1 class="section__title" style="font-size:var(--step-3);margin-top:.75rem">This page has drifted out of the survey volume.</h1>
+      <div class="lede" style="margin-top:1.5rem;max-width:62ch">
+        <p>Nothing lives at that address. It may have moved when the site was rebuilt, or the link may have been mistyped.</p>
+      </div>
+
+      <hr class="rule" style="margin:3rem 0">
+
+      <p style="color:var(--text-mid);font-size:var(--step--1);margin-bottom:1rem">Try one of these instead:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem">
+        {{ range where site.Menus.main "Name" "!=" "CV" }}
+          <a class="chip" href="{{ .URL }}">{{ .Name }}</a>
+        {{ end }}
+      </div>
+
+      <p style="color:var(--text-dim);font-size:var(--step--1);margin-top:2.5rem">
+        If you followed a link from somewhere and it should work,
+        <a class="link-u" href="mailto:{{ site.Params.email }}">let me know</a>.
+      </p>
+    </div>
+  </section>
+{{ end }}

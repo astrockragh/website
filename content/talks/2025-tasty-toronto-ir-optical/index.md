@@ -1,6 +1,6 @@
 ---
 url_pdf: https://ui.adsabs.harvard.edu/abs/2025arXiv250303816J/abstract
-title: TBD @University of Toronto
+title: The Optical and Infrared Are Connected @University of Toronto
 location: Toronto, ON
 date: '2025-11-11T10:00:00+00:00'
 all_day: false

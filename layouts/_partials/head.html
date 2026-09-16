@@ -6,10 +6,34 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#06070b">
 
-<meta property="og:type" content="website">
+{{/* Link previews (Messages, Slack, Signal, X, ...). The image is a still from
+     the cosmic-web reel at t=10s, where the density field has resolved into the
+     halo graph; regenerate with tools/make_og_cover.sh if the clip changes. */}}
+{{ $og := "img/og-cover.jpg" | absURL }}
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $og }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A cosmological volume rendered as a graph: dark matter haloes as nodes, their neighbours joined by edges.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="twitter:image" content="{{ $og }}">
+
+{{/* Spiral galaxy mark. SVG for modern browsers, PNG/ICO fallbacks, and a
+     flattened apple-touch-icon because iOS masks it and transparent corners
+     render as white. */}}
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<link rel="icon" href="{{ "favicon-32.png" | relURL }}" sizes="32x32" type="image/png">
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any">
+<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
