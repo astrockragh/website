@@ -9,8 +9,18 @@
 
    Two <video> elements alternate: the incoming one starts playing off-screen
    and only fades up once it is actually rendering frames, so a stalled clip
-   never shows as a frozen frame. Falls back to a poster-still slideshow on
-   mobile and under prefers-reduced-motion.
+   never shows as a frozen frame.
+
+   TIMING: the caption, the progress bar and the advance timer are all driven
+   by real playback, never by the wall clock. They start when the incoming
+   clip actually produces frames, and they freeze while it rebuffers. On a
+   slow connection the older wall-clock version drifted — the caption moved on
+   while the previous clip was still on screen, and the error accumulated
+   across clips. A stall watchdog still forces an advance if a clip never
+   recovers, so the reel cannot deadlock on a bad connection.
+
+   Falls back to a poster-still slideshow on small screens and under
+   prefers-reduced-motion.
 ------------------------------------------------------------------ */
 (function () {
   var root = document.querySelector('[data-reel]');
@@ -20,7 +30,9 @@
   try { clips = JSON.parse(root.getAttribute('data-clips')); } catch (e) { return; }
   if (!clips.length) return;
 
-  var DURATION = parseInt(root.getAttribute('data-duration'), 10) || 30000;
+  var DURATION  = parseInt(root.getAttribute('data-duration'), 10) || 30000;
+  var FIRSTWAIT = 10000;   // give up waiting for first frames, show the still
+  var STALLMAX  = 8000;    // give up waiting for a rebuffer, move on
 
   var posters  = [].slice.call(root.querySelectorAll('.hero__poster'));
   var videos   = [].slice.call(root.querySelectorAll('video.hero__player'));
@@ -30,10 +42,42 @@
   var capText  = document.querySelector('.reel-caption__text');
   var bars     = [].slice.call(document.querySelectorAll('.reel-nav button'));
 
-  var index = 0, slot = 0, timer = null, videoMode = false;
+  var index = 0, slot = 0, videoMode = false;
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var small   = window.matchMedia('(max-width: 760px)').matches;
+
+  /* ---------- a clock that follows the picture ---------- */
+
+  var timer = null, stallTimer = null, remaining = 0, startedAt = 0, running = false;
+
+  function playState(s) { root.style.setProperty('--reel-play', s); }
+
+  function startClock(d) { stopClock(); remaining = d; resumeClock(); }
+
+  function resumeClock() {
+    if (running || remaining <= 0) return;
+    window.clearTimeout(stallTimer);
+    running = true; startedAt = Date.now();
+    playState('running');
+    timer = window.setTimeout(function () { running = false; go(index + 1); }, remaining);
+  }
+
+  function pauseClock() {
+    if (!running) return;
+    window.clearTimeout(timer);
+    remaining -= (Date.now() - startedAt);
+    running = false;
+    playState('paused');
+    // Never wait forever for a clip that is not coming back.
+    window.clearTimeout(stallTimer);
+    stallTimer = window.setTimeout(function () { go(index + 1); }, STALLMAX);
+  }
+
+  function stopClock() {
+    window.clearTimeout(timer); window.clearTimeout(stallTimer);
+    running = false; remaining = 0;
+  }
 
   /* ---------- shared UI ---------- */
 
@@ -63,36 +107,54 @@
     posters.forEach(function (p, n) { p.classList.toggle('is-active', n === i); });
   }
 
-  function schedule() {
-    window.clearTimeout(timer);
-    var d = (clips[index] && clips[index].duration) ? clips[index].duration : DURATION;
+  // Caption, bar and clock move together, and only once the picture has.
+  function reveal(i) {
+    var d = (clips[i] && clips[i].duration) ? clips[i].duration : DURATION;
     root.style.setProperty('--reel-duration', (d / 1000) + 's');
-    timer = window.setTimeout(function () { go(index + 1); }, d);
+    paintCaption(i);
+    paintBars(i);
+    startClock(d);
   }
 
   /* ---------- poster-only mode ---------- */
 
   function goPoster(i) {
     index = ((i % clips.length) + clips.length) % clips.length;
-    paintPoster(index); paintCaption(index); paintBars(index);
-    schedule();
+    paintPoster(index);
+    reveal(index);
   }
 
   /* ---------- video mode ---------- */
 
+  function onWaiting() { pauseClock(); }
+  function onResume()  { resumeClock(); }
+
+  function watch(v)   { if (!v) return;
+    v.addEventListener('waiting', onWaiting);
+    v.addEventListener('stalled', onWaiting);
+    v.addEventListener('playing', onResume);
+  }
+  function unwatch(v) { if (!v) return;
+    v.removeEventListener('waiting', onWaiting);
+    v.removeEventListener('stalled', onWaiting);
+    v.removeEventListener('playing', onResume);
+  }
+
   // Resolve when the element is genuinely producing frames, not merely "loaded".
   function whenPlaying(v, cb) {
-    var done = false;
-    function fire() {
+    var done = false, net;
+    function fire(viaNet) {
       if (done) return; done = true;
-      v.removeEventListener('playing', fire);
+      window.clearTimeout(net);
+      v.removeEventListener('playing', onFire);
       v.removeEventListener('timeupdate', check);
-      cb();
+      cb(!!viaNet);
     }
-    function check() { if (v.currentTime > 0.05) fire(); }
-    v.addEventListener('playing', fire);
+    function onFire() { fire(false); }
+    function check() { if (v.currentTime > 0.05) fire(false); }
+    v.addEventListener('playing', onFire);
     v.addEventListener('timeupdate', check);
-    window.setTimeout(fire, 4000);           // safety net only
+    net = window.setTimeout(function () { fire(true); }, FIRSTWAIT);
   }
 
   function go(i) {
@@ -103,6 +165,9 @@
     var v = videos[next];
     if (!v) return goPoster(index);
 
+    stopClock();
+    playState('paused');          // bar holds while the next clip buffers
+
     v.src = clips[index].src;
     v.load();
     var play = v.play();
@@ -110,21 +175,26 @@
       window.console && console.warn('[reel] play() rejected:', err && err.name);
     });
 
-    whenPlaying(v, function () {
+    whenPlaying(v, function (timedOut) {
       var outgoing = slot;
-      videos[next].classList.add('is-active');
-      videos[outgoing].classList.remove('is-active');
-      slot = next;
+      unwatch(videos[outgoing]);
+      if (!timedOut) {
+        videos[next].classList.add('is-active');
+        videos[outgoing].classList.remove('is-active');
+        slot = next;
+        watch(videos[next]);
+      } else {
+        // Never started. Show the still instead of a black rectangle.
+        videos[outgoing].classList.remove('is-active');
+        videos[next].classList.remove('is-active');
+        window.console && console.warn('[reel] clip', index + 1, 'never started — showing still');
+      }
       paintPoster(index);
-      // Park the clip we just faded away from so only one decodes at a time.
+      reveal(index);
       window.setTimeout(function () {
         try { videos[outgoing].pause(); } catch (e) {}
       }, 1800);
     });
-
-    paintCaption(index);
-    paintBars(index);
-    schedule();
   }
 
   /* ---------- boot ---------- */
@@ -138,7 +208,7 @@
     '|', (reduced || small) ? 'POSTER MODE (no video by design)' : 'video mode');
 
   if (reduced || small) {
-    schedule();                          // poster slideshow only
+    reveal(0);                           // poster slideshow only
   } else {
     videoMode = true;
     var first = videos[0];
@@ -147,15 +217,14 @@
     if (p0 && p0.catch) p0.catch(function (err) {
       window.console && console.warn('[reel] autoplay blocked:', err && err.name, '— staying on stills');
     });
-    whenPlaying(first, function () {
-      first.classList.add('is-active');
-      window.console && console.info('[reel] clip 1 playing');
+    whenPlaying(first, function (timedOut) {
+      if (!timedOut) { first.classList.add('is-active'); watch(first); }
+      reveal(0);                         // clock starts with the picture
     });
-    schedule();
   }
 
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) { window.clearTimeout(timer); try { videos[slot].pause(); } catch (e) {} }
-    else { try { videos[slot].play(); } catch (e) {} schedule(); }
+    if (document.hidden) { pauseClock(); window.clearTimeout(stallTimer); try { videos[slot].pause(); } catch (e) {} }
+    else { try { videos[slot].play(); } catch (e) {} resumeClock(); }
   });
 })();

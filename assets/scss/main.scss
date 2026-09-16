@@ -298,6 +298,9 @@ p:last-child { margin-bottom: 0; }
 }
 .reel-nav button[aria-current='true']::after {
   animation: reel-fill var(--reel-duration, 60s) linear forwards;
+  /* reel.js flips this to `paused` while a clip is buffering, so the bar
+     tracks the picture rather than the wall clock on a slow connection. */
+  animation-play-state: var(--reel-play, running);
 }
 .reel-nav button.is-past::after { transform: scaleX(1); }
 @keyframes reel-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
