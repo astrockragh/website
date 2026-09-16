@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Molecular Spectrum Viewer</title>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:       #1565C0;
+  --blue-mid:   #42A5F5;
+  --blue-pale:  #E3F2FD;
+  --blue-dim:   rgba(21, 101, 192, 0.08);
+  --orange:     #E65100;
+  --orange-pale:#FFF3E0;
+  --green:      #2E7D32;
+  --green-pale: #E8F5E9;
+  --border:     #E0E0E0;
+  --bg:         #FFFFFF;
+  --surface:    #F8F9FA;
+  --text:       #37474F;
+  --text-dim:   #90A4AE;
+  --mono:       'SF Mono', 'Consolas', 'Courier New', monospace;
+  --sans:       -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 6px;
+}
+
+/* ─── Card ───────────────────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  padding: 9px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.header-left { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.header-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 0.01em;
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.mode-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  background: var(--blue-pale);
+  color: var(--blue);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.3s, color 0.3s;
+}
+.mode-badge.precomputed {
+  background: var(--green-pale);
+  color: var(--green);
+}
+
+/* ─── Physical parameter controls ────────────────────────────────────────── */
+.controls {
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 0.7fr 1.1fr 1.1fr 0.9fr;
+  gap: 0;
+}
+
+.ctrl-group {
+  padding: 0 10px;
+  border-right: 1px solid var(--border);
+}
+.ctrl-group:first-child { padding-left: 0; }
+.ctrl-group:last-child  { border-right: none; }
+
+.group-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-bottom: 7px;
+}
+
+/* ─── Individual parameter row ───────────────────────────────────────────── */
+.p-row { margin-bottom: 6px; }
+.p-row:last-child { margin-bottom: 0; }
+
+.p-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+.p-name {
+  font-size: 12px;
+  color: var(--text);
+}
+.p-unit {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-left: 2px;
+}
+.p-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--blue);
+  font-weight: 600;
+  min-width: 48px;
+  text-align: right;
+}
+
+/* ─── Range slider ───────────────────────────────────────────────────────── */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(to right, var(--blue) 50%, var(--blue-pale) 50%);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(21,101,192,0.40);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  margin-top: -4.5px;
+}
+input[type=range]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 1px 8px rgba(21,101,192,0.55);
+}
+input[type=range]::-webkit-slider-runnable-track { height: 3px; border-radius: 2px; }
+/* Firefox */
+input[type=range]::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--blue); border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(21,101,192,0.40); cursor: pointer;
+}
+input[type=range]::-moz-range-track { height: 3px; border-radius: 2px; }
+
+/* ─── Mixing controls row ────────────────────────────────────────────────── */
+.controls-mix {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sym-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sym-btn {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.3;
+}
+.sym-btn.active {
+  border-color: var(--blue);
+  background: var(--blue-pale);
+  color: var(--blue);
+}
+.sym-btn:hover:not(.active) {
+  border-color: var(--blue-mid);
+  color: var(--text);
+}
+
+.mix-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 180px;
+  flex: 1;
+  max-width: 280px;
+}
+.mix-slider.hidden { display: none; }
+.mix-slider .p-name { font-size: 11.5px; white-space: nowrap; }
+.mix-slider input[type=range] { flex: 1; }
+.mix-slider .p-val { font-size: 11px; min-width: 40px; }
+
+/* ─── Plot ───────────────────────────────────────────────────────────────── */
+#plot { width: 100%; height: 340px; }
+
+/* ─── Status bar ─────────────────────────────────────────────────────────── */
+.statusbar {
+  padding: 5px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  color: var(--text);
+  gap: 8px;
+}
+.status-msg { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.status-time { font-family: var(--mono); flex-shrink: 0; }
+
+/* ─── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 580px) {
+  .controls { grid-template-columns: 1fr 1fr; }
+  .ctrl-group:nth-child(2n) { border-right: none; }
+  .ctrl-group:nth-child(odd) { border-right: 1px solid var(--border); }
+  .ctrl-group { padding: 0 8px 8px; }
+  .ctrl-group:nth-child(odd) { padding-left: 0; }
+  .ctrl-group:nth-child(1), .ctrl-group:nth-child(2) {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px; margin-bottom: 0;
+  }
+  .controls-mix { gap: 12px; }
+  .mix-slider { min-width: 140px; }
+}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <span class="header-title">Molecular Ro-Vibrational Spectrum</span>
+      <span class="header-sub" id="header-sub">Cₛ · b + c type · r_BC = 1.00</span>
+    </div>
+    <span class="mode-badge" id="mode-badge">Live</span>
+  </div>
+
+  <!-- Physical parameter controls -->
+  <div class="controls">
+    <div class="ctrl-group" id="g-thermal">
+      <div class="group-label">Thermal</div>
+    </div>
+    <div class="ctrl-group" id="g-rotconst">
+      <div class="group-label">Rotational Constants</div>
+    </div>
+    <div class="ctrl-group" id="g-vibrot">
+      <div class="group-label">Excited / Ground</div>
+    </div>
+    <div class="ctrl-group" id="g-broad">
+      <div class="group-label">Line Broadening</div>
+      <!-- τ (Lorentzian) applied online -->
+      <div class="p-row">
+        <div class="p-meta">
+          <span class="p-name">τ<span class="p-unit">cm⁻¹</span></span>
+          <span class="p-val" id="pv-lorentz-tau">0.300</span>
+        </div>
+        <input type="range" id="ps-lorentz-tau" min="0.001" max="1.0" step="0.001" value="0.30">
+      </div>
+      <!-- σ (Gaussian) applied online -->
+      <div class="p-row">
+        <div class="p-meta">
+          <span class="p-name">σ<span class="p-unit">cm⁻¹</span></span>
+          <span class="p-val" id="pv-gauss-sigma">0.300</span>
+        </div>
+        <input type="range" id="ps-gauss-sigma" min="0.01" max="0.5" step="0.01" value="0.30">
+      </div>
+    </div>
+  </div>
+
+  <!-- Symmetry & scalar controls -->
+  <div class="controls-mix">
+    <div class="sym-group">
+      <span class="group-label" style="margin-bottom:0">Symmetry</span>
+      <button class="sym-btn" id="btn-c2v">C₂ᵥ</button>
+      <button class="sym-btn active" id="btn-cs">Cₛ</button>
+    </div>
+
+    <div class="ctrl-group" style="flex:1">
+      <div class="group-label">Scalars</div>
+      <div class="mix-slider" id="rbc-group">
+        <span class="p-name">r<sub>BC</sub></span>
+        <input type="range" id="ps-rbc" min="0" max="10" step="0.01" value="1">
+        <span class="p-val" id="pv-rbc">1.00</span>
+      </div>
+      <div class="mix-slider">
+        <span class="p-name">α (dT direct)</span>
+        <input type="range" id="ps-dt" min="-0.025" max="0.025" step="0.0001" value="0">
+        <span class="p-val" id="pv-dt">0.0000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Plot -->
+  <div id="plot"></div>
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <span class="status-msg" id="status-msg">Initialising…</span>
+    <span class="status-time" id="status-time"></span>
+  </div>
+
+</div><!-- .card -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// Set DATA_URL to load your pre-computed spectra.
+// If null the widget falls back to a live JS approximation (b-type only).
+//
+// ── Expected JSON format ────────────────────────────────────────────────────
+// {
+//   "wavelength": [w0, w1, …, wN],         ← shared x-axis in Angstroms
+//   "spectra": [
+//     {
+//       "params": {
+//         "T": 10, "A": 0.04, "B": 0.02, "C": 0.01,
+//         "fA": 0.98, "fB": 0.98, "fC": 0.98,
+//         "tau": 0.01, "sigma": 0.3
+//       },
+//       "intensity_b":    [i0, …, iN],      ← b-type dipole component (required)
+//       "intensity_c":    [i0, …, iN],      ← c-type dipole component (optional, Cs only)
+//       "dT_intensity_b": [i0, …, iN],      ← dS/dT for b-type (optional)
+//       "dT_intensity_c": [i0, …, iN]       ← dS/dT for c-type (optional, Cs only)
+//     },
+//     …
+//   ]
+// }
+//
+// Online combination (done in browser, not precomputed):
+//   direct = intensity_b + r_BC × intensity_c        (Cs only; C2v uses b only)
+//   dT     = dT_intensity_b + r_BC × dT_intensity_c  (same r_BC)
+//   total  = direct + dT_strength × dT
+//
+// ────────────────────────────────────────────────────────────────────────────
+// Set these to the paths of your binary data + index JSON.
+// If null, falls back to live JS approximation.
+const DATA_URLS = {
+  cs:  { index: '/data/mol_spectra_index_Cs_1000.json',  bin: '/data/mol_spectra_data_Cs_1000.bin'  },
+  c2v: { index: '/data/mol_spectra_index_C2v_1000.json', bin: '/data/mol_spectra_data_C2v_1000.bin' },
+};
+
+// Wavelength axis used for live computation (Å, centred on band)
+const WAV_CENTER = 15272.272;
+const WAV_HALF   = 6.5;
+const N_PTS      = 1000;
+
+// ── Physical parameter definitions (used for nearest-neighbour lookup) ────
+// [id, HTML label, unit, min, max, default, step, group-element-id]
+const PARAM_DEFS = [
+  ['T',     'T<sub>rot</sub>', 'K',    1,      25,  10,    1,       'g-thermal'],
+  ['A',     'A',               'cm⁻¹', 0.001,  0.1,  0.04,  0.001,   'g-rotconst'],
+  ['B',     'B',               'cm⁻¹', 0.0001, 0.1,  0.02,  0.0001,  'g-rotconst'],
+  ['C',     'C',               'cm⁻¹', 0.0001, 0.1,  0.01,  0.0001,  'g-rotconst'],
+  ['fA',    'f<sub>A</sub>',   '',      0.88,   1.0, 0.98,  0.001,   'g-vibrot'],
+  ['fB',    'f<sub>B</sub>',   '',      0.88,   1.0, 0.98,  0.001,   'g-vibrot'],
+  ['fC',    'f<sub>C</sub>',   '',      0.88,   1.0, 0.98,  0.001,   'g-vibrot'],
+];
+
+// Broadening applied online (not in nearest-neighbour lookup)
+let lorentzTau = 0.30;  // cm⁻¹
+let gaussSigma = 0.30;  // cm⁻¹
+
+// ═══════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════
+const cur = {};
+PARAM_DEFS.forEach(([id,,,,, def]) => { cur[id] = def; });
+
+let symmetry    = 'cs';    // 'c2v' or 'cs'
+let r_BC        = 1.0;     // dipole-moment ratio μ_c / μ_b
+let dT_strength = 0.0;     // ΔT mixing coefficient
+
+let preIndex      = null;  // loaded index JSON (params only)
+let preBin        = null;  // loaded ArrayBuffer (binary spectral data)
+let preWavelength = null;  // Float32Array view of wavelength from binary
+let freqAxis      = null;  // live computation axis
+let plotReady     = false;
+
+// Build wavelength axis once (Å)
+freqAxis = Array.from({length: N_PTS}, (_, i) =>
+  (WAV_CENTER - WAV_HALF) + i * (2 * WAV_HALF) / (N_PTS - 1));
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PHYSICS ENGINE  (symmetric-top approximation, parallel band ΔK = 0)
+// Fallback only — used when DATA_URL is null or fails to load.
+// Produces b-type spectrum; c-type and dT arrays are zeroed.
+// ═══════════════════════════════════════════════════════════════════════════
+const KB = 0.6950356;   // Boltzmann constant in cm⁻¹ K⁻¹
+
+function computeSpectrumLive(p) {
+  const { T, A, B, C, fA, fB, fC, tau, sigma } = p;
+  const kT = KB * T;
+
+  // Derive ground/excited constants from fA/fB/fC ratios
+  const Bg = (B + C) / 2;
+  const Ag = A;
+  const Be = (B * fB + C * fC) / 2;
+  const Ae = A * fA;
+
+  const Jmax = Math.min(80,
+    Math.ceil(Math.sqrt(Math.max(kT, 0.1) / (2 * Math.max(Bg, 0.0001))) * 3 + 8));
+
+  // ── Stick spectrum (cm⁻¹ relative to band origin) ─────────────────────
+  const NU_RANGE = 1e8 / (WAV_CENTER - WAV_HALF) - 1e8 / WAV_CENTER; // cm⁻¹ half-width
+  const sticks = [];
+  for (let J = 0; J <= Jmax; J++) {
+    for (let K = 0; K <= J; K++) {
+      const El = Bg * J * (J + 1) + (Ag - Bg) * K * K;
+      const N  = (2 * J + 1) * (K === 0 ? 1 : 2) * Math.exp(-El / kT);
+      if (N < 1e-14) continue;
+
+      // R branch  J → J+1
+      if (J < Jmax) {
+        const nu = Be * (J+1) * (J+2) + (Ae - Be) * K*K - El;
+        const HL = ((J+1)*(J+1) - K*K) / (J+1);
+        if (HL > 0 && Math.abs(nu) < NU_RANGE)
+          sticks.push([nu, N * HL]);
+      }
+      // P branch  J → J-1
+      if (J >= 1) {
+        const nu = Be * (J-1) * J + (Ae - Be) * K*K - El;
+        const HL = (J*J - K*K) / J;
+        if (HL > 0 && Math.abs(nu) < NU_RANGE)
+          sticks.push([nu, N * HL]);
+      }
+      // Q branch  J → J  (K > 0)
+      if (K > 0) {
+        const nu = Be * J * (J+1) + (Ae - Be) * K*K - El;
+        const HL = K * K * (2*J+1) / (J * (J+1));
+        if (HL > 0 && Math.abs(nu) < NU_RANGE)
+          sticks.push([nu, N * HL]);
+      }
+    }
+  }
+
+  // Convert wavelength axis to cm⁻¹ offsets for convolution
+  const nu0 = 1e8 / WAV_CENTER;
+  const cmAxis = freqAxis.map(w => 1e8 / w - nu0);
+
+  // ── Pseudo-Voigt convolution ──────────────────────────────────────────
+  const fV = Math.pow(
+    Math.pow(tau,5) + 2.69269*Math.pow(tau,4)*sigma
+    + 2.42843*Math.pow(tau,3)*sigma*sigma
+    + 4.47163*tau*tau*Math.pow(sigma,3)
+    + 0.07842*tau*Math.pow(sigma,4) + Math.pow(sigma,5), 0.2);
+  const r  = tau / fV;
+  const eta = Math.max(0, Math.min(1, 1.36603*r - 0.47719*r*r + 0.11116*r*r*r));
+  const cut = 15 * Math.max(tau, sigma, 1e-6);
+  const TWO_SIG2 = 2 * sigma * sigma;
+  const SIG_SQRT2PI = sigma * Math.sqrt(2 * Math.PI);
+
+  const spec = new Float64Array(N_PTS);
+  for (const [nu, I] of sticks) {
+    for (let i = 0; i < N_PTS; i++) {
+      const dx = cmAxis[i] - nu;
+      if (Math.abs(dx) > cut) continue;
+      const L = (tau / Math.PI) / (dx*dx + tau*tau);
+      const G = Math.exp(-dx*dx / TWO_SIG2) / SIG_SQRT2PI;
+      spec[i] += I * (eta * L + (1 - eta) * G);
+    }
+  }
+
+  // Normalise to peak
+  let mx = 0;
+  for (const v of spec) if (v > mx) mx = v;
+  if (mx > 0) for (let i = 0; i < N_PTS; i++) spec[i] /= mx;
+
+  const ib = Array.from(spec);
+  const zeros = new Array(N_PTS).fill(0);
+  return {
+    intensity_b:    ib,
+    intensity_c:    zeros,
+    dT_intensity_b: zeros,
+    dT_intensity_c: zeros,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NEAREST-NEIGHBOUR LOOKUP  (pre-computed binary mode)
+// Only uses physical parameters — r_BC and dT_strength are applied online.
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Pre-computed normalisation ranges (built once after loading index)
+let nnRanges = null;
+
+function buildNNRanges() {
+  const ids = PARAM_DEFS.map(d => d[0]);
+  nnRanges = {};
+  for (const id of ids) {
+    const vals = preIndex.spectra.map(s => s[id] ?? 0);
+    const lo = Math.min(...vals), hi = Math.max(...vals);
+    nnRanges[id] = hi > lo ? hi - lo : 1;
+  }
+}
+
+function nearestSpectrumIdx(params) {
+  const ids = PARAM_DEFS.map(d => d[0]);
+  let best = 0, bestD = Infinity;
+  for (let k = 0; k < preIndex.n_spectra; k++) {
+    let d = 0;
+    const sp = preIndex.spectra[k];
+    for (const id of ids) {
+      const diff = (params[id] - (sp[id] ?? 0)) / nnRanges[id];
+      d += diff * diff;
+    }
+    if (d < bestD) { bestD = d; best = k; }
+  }
+  return best;
+}
+
+// Extract arrays for spectrum at index k from the binary buffer.
+// Supports both 4-array (Cs: ib, ic, dTb, dTc) and 2-array (C2v: ib, dTb) layouts.
+// The format is determined by preIndex.n_arrays (defaults to 4 for backward compat).
+function getSpectrumFromBin(k) {
+  const N  = preIndex.n_wav;
+  const nA = preIndex.n_arrays || 4;  // arrays per spectrum
+  const baseOffset = N + k * nA * N;  // in Float32 units
+  const zeros = new Float32Array(N);   // shared empty array
+
+  if (nA === 4) {
+    return {
+      intensity_b:    new Float32Array(preBin, (baseOffset)         * 4, N),
+      intensity_c:    new Float32Array(preBin, (baseOffset + N)     * 4, N),
+      dT_intensity_b: new Float32Array(preBin, (baseOffset + 2 * N) * 4, N),
+      dT_intensity_c: new Float32Array(preBin, (baseOffset + 3 * N) * 4, N),
+    };
+  } else {
+    // 2-array layout: [intensity_b, dT_intensity_b]
+    return {
+      intensity_b:    new Float32Array(preBin, (baseOffset)     * 4, N),
+      intensity_c:    zeros,
+      dT_intensity_b: new Float32Array(preBin, (baseOffset + N) * 4, N),
+      dT_intensity_c: zeros,
+    };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMBINE PROFILES  (online mixing of b/c dipole components + dT)
+// ═══════════════════════════════════════════════════════════════════════════
+function combineProfiles(spec) {
+  const n = spec.intensity_b.length;
+  const direct = new Array(n);
+  const dT     = new Array(n);
+  const total  = new Array(n);
+
+  // Gracefully handle missing c-type or dT arrays (e.g. C2v-only JSON entries)
+  // Note: binary loader returns Float32Array (not Array), so Array.isArray() won't work
+  const hasC   = spec.intensity_c    != null && spec.intensity_c.length > 0;
+  const hasDTb = spec.dT_intensity_b != null && spec.dT_intensity_b.length > 0;
+  const hasDTc = spec.dT_intensity_c != null && spec.dT_intensity_c.length > 0;
+  const useC   = (symmetry === 'cs') && hasC;
+
+  for (let i = 0; i < n; i++) {
+    direct[i] = spec.intensity_b[i]
+              + (useC ? r_BC * spec.intensity_c[i] : 0);
+    dT[i]     = (hasDTb ? spec.dT_intensity_b[i] : 0)
+              + (useC && hasDTc ? r_BC * spec.dT_intensity_c[i] : 0);
+    total[i]  = direct[i] + dT_strength * dT[i];
+  }
+
+  return { direct, dT, total };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ONLINE LORENTZIAN CONVOLUTION
+// Cauchy/Lorentz kernel: L(x) = (γ/π) / (x² + γ²)
+// Wider cutoff needed (50γ) due to slow 1/x² tail decay.
+// ═══════════════════════════════════════════════════════════════════════════
+function lorentzianConvolve(arr, wavelengths, tauCm) {
+  const n = arr.length;
+  if (tauCm <= 0 || n < 2) return arr.slice();
+
+  // Convert τ (FWHM, PGOPHER convention) to HWHM in Å
+  const lamC = WAV_CENTER;
+  const hwhm = tauCm / 2;
+  const tauAng = (lamC * lamC / 1e8) * hwhm;
+
+  const dx = (wavelengths[n - 1] - wavelengths[0]) / (n - 1);
+
+  // Kernel half-width: 50× HWHM captures >99.4% of the profile
+  const halfW = Math.min(Math.ceil(50 * tauAng / dx), n - 1);
+  if (halfW === 0) return arr.slice();
+
+
+  // Build normalised Lorentzian kernel
+  const kernel = new Float64Array(2 * halfW + 1);
+  const gamma2 = tauAng * tauAng;
+  let kSum = 0;
+  for (let j = -halfW; j <= halfW; j++) {
+    const x = j * dx;
+    const val = tauAng / (x * x + gamma2);  // π factor cancels in normalisation
+    kernel[j + halfW] = val;
+    kSum += val;
+  }
+  for (let j = 0; j < kernel.length; j++) kernel[j] /= kSum;
+
+  // Find first/last non-NaN values for edge padding
+  let leftVal = 0, rightVal = 0;
+  for (let i = 0; i < n; i++) {
+    if (!isNaN(arr[i])) { leftVal = arr[i]; break; }
+  }
+  for (let i = n - 1; i >= 0; i--) {
+    if (!isNaN(arr[i])) { rightVal = arr[i]; break; }
+  }
+
+  // Pad input
+  const padded = new Float64Array(n + 2 * halfW);
+  for (let i = 0; i < halfW; i++) padded[i] = leftVal;
+  for (let i = 0; i < n; i++) {
+    padded[halfW + i] = isNaN(arr[i]) ? (i < n / 2 ? leftVal : rightVal) : arr[i];
+  }
+  for (let i = 0; i < halfW; i++) padded[halfW + n + i] = rightVal;
+
+  // Direct convolution
+  const out = new Array(n);
+  for (let i = 0; i < n; i++) {
+    let sum = 0;
+    for (let j = -halfW; j <= halfW; j++) {
+      sum += kernel[j + halfW] * padded[halfW + i + j];
+    }
+    out[i] = sum;
+  }
+  return out;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ONLINE GAUSSIAN CONVOLUTION
+// σ is specified in cm⁻¹ but the data lives on a wavelength (Å) grid.
+// Conversion: σ_λ = λ² / 1e8 × σ_ν   (from dλ = λ²/1e8 × dν)
+// The wavelength range is narrow (~13 Å around 15272 Å) so the conversion
+// factor is nearly constant; we use the centre wavelength.
+// ═══════════════════════════════════════════════════════════════════════════
+function gaussianConvolve(arr, wavelengths, sigmaCm) {
+  const n = arr.length;
+  if (sigmaCm <= 0 || n < 2) return arr.slice();
+
+  // Convert σ from cm⁻¹ to Å using centre wavelength
+  const lamC = WAV_CENTER;  // ~15272 Å
+  const sigmaAng = (lamC * lamC / 1e8) * sigmaCm;
+
+  // Grid spacing (uniform)
+  const dx = (wavelengths[n - 1] - wavelengths[0]) / (n - 1);
+
+  // Kernel half-width in pixels (go out to 4σ)
+  const halfW = Math.min(Math.ceil(4 * sigmaAng / dx), n - 1);
+  if (halfW === 0) return arr.slice();
+
+  // Build normalised Gaussian kernel
+  const kernel = new Float64Array(2 * halfW + 1);
+  const twoSig2 = 2 * sigmaAng * sigmaAng;
+  let kSum = 0;
+  for (let j = -halfW; j <= halfW; j++) {
+    const val = Math.exp(-(j * dx) * (j * dx) / twoSig2);
+    kernel[j + halfW] = val;
+    kSum += val;
+  }
+  for (let j = 0; j < kernel.length; j++) kernel[j] /= kSum;
+
+  // Find first/last non-NaN values for edge padding
+  let leftVal = 0, rightVal = 0;
+  for (let i = 0; i < n; i++) {
+    if (!isNaN(arr[i])) { leftVal = arr[i]; break; }
+  }
+  for (let i = n - 1; i >= 0; i--) {
+    if (!isNaN(arr[i])) { rightVal = arr[i]; break; }
+  }
+
+  // Pad input, replacing NaNs with nearest non-NaN edge value
+  const padded = new Float64Array(n + 2 * halfW);
+  for (let i = 0; i < halfW; i++) padded[i] = leftVal;
+  for (let i = 0; i < n; i++) {
+    padded[halfW + i] = isNaN(arr[i]) ? (i < n / 2 ? leftVal : rightVal) : arr[i];
+  }
+  for (let i = 0; i < halfW; i++) padded[halfW + n + i] = rightVal;
+
+  // Direct convolution on padded array
+  const out = new Array(n);
+  for (let i = 0; i < n; i++) {
+    let sum = 0;
+    for (let j = -halfW; j <= halfW; j++) {
+      sum += kernel[j + halfW] * padded[halfW + i + j];
+    }
+    out[i] = sum;
+  }
+  return out;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PLOTLY CHART
+// ═══════════════════════════════════════════════════════════════════════════
+// Shared axis styling
+const AXIS_STYLE = {
+  gridcolor: '#F0F0F0', linecolor: '#E0E0E0', tickcolor: '#E0E0E0',
+  tickfont: { size: 10.5, color: '#78909C', family: "'SF Mono','Consolas',monospace" },
+  automargin: true,
+};
+
+const LAYOUT = {
+  margin:  { l: 52, r: 14, t: 10, b: 42 },
+
+  // Left panel x-axis — Direct profile
+  xaxis: {
+    ...AXIS_STYLE,
+    title: { text: 'λ  (Å)', standoff: 6,
+             font: { size: 11, color: '#90A4AE', family: 'inherit' } },
+    tickformat: '.1f',
+    exponentformat: 'none',
+    domain: [0.0, 0.47],
+    anchor: 'y',
+  },
+
+  // Right panel x-axis — dT profile
+  xaxis2: {
+    ...AXIS_STYLE,
+    title: { text: 'λ  (Å)', standoff: 6,
+             font: { size: 11, color: '#90A4AE', family: 'inherit' } },
+    tickformat: '.1f',
+    exponentformat: 'none',
+    domain: [0.53, 1.0],
+    anchor: 'y2',
+  },
+
+  // Left panel y-axis
+  yaxis: {
+    ...AXIS_STYLE,
+    title: { text: 'Direct', standoff: 4,
+             font: { size: 11, color: '#90A4AE', family: 'inherit' } },
+    anchor: 'x',
+  },
+
+  // Right panel y-axis
+  yaxis2: {
+    ...AXIS_STYLE,
+    title: { text: 'dT × ΔT', standoff: 4,
+             font: { size: 11, color: '#90A4AE', family: 'inherit' } },
+    anchor: 'x2',
+  },
+
+  paper_bgcolor: '#FFFFFF',
+  plot_bgcolor:  '#FAFBFC',
+  showlegend: true,
+  legend: {
+    x: 1, y: 1, xanchor: 'right', yanchor: 'top',
+    bgcolor: 'rgba(255,255,255,0.85)',
+    bordercolor: '#E0E0E0', borderwidth: 1,
+    font: { size: 10.5 },
+    tracegroupgap: 2,
+  },
+  hovermode: 'x unified',
+  font: { family: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif',
+          color: '#37474F', size: 12 },
+};
+
+const PLOTLY_CFG = {
+  responsive: true, displayModeBar: true, displaylogo: false,
+  modeBarButtonsToRemove: ['select2d', 'lasso2d'],
+  toImageButtonOptions: { format: 'png', scale: 2 },
+};
+
+function updatePlot() {
+  const t0 = performance.now();
+  let x, statusMsg, spec;
+
+  if (preBin && preIndex) {
+    const k = nearestSpectrumIdx(cur);
+    x = preWavelength;
+    spec = getSpectrumFromBin(k);
+    const sp = preIndex.spectra[k];
+    const nA = preIndex.n_arrays || 4;
+    const parts = PARAM_DEFS.map(([id]) => {
+      const v = sp[id];
+      return v !== undefined ? `${id}=${fmtVal(id, v)}` : null;
+    }).filter(Boolean);
+    statusMsg = `${symmetry.toUpperCase()} (${nA} arr) · Nearest match · ` + parts.join(' · ');
+  } else {
+    x = freqAxis;
+    spec = computeSpectrumLive(cur);
+    statusMsg = 'Live (symmetric-top approx., b-type only)';
+  }
+
+  const { direct, dT } = combineProfiles(spec);
+
+  // Online broadening: Lorentzian then Gaussian (Voigt-like)
+  const xArr = Array.isArray(x) ? x : Array.from(x);
+  const directL = lorentzianConvolve(direct, xArr, lorentzTau);
+  const dTL     = lorentzianConvolve(dT,     xArr, lorentzTau);
+  const directConv = gaussianConvolve(directL, xArr, gaussSigma);
+  const dTconv     = gaussianConvolve(dTL,     xArr, gaussSigma);
+
+  // Both are absorption profiles (zero → negative), so negate
+  const directNeg = directConv.map(v => -v);
+  const dTpanel = dTconv.map((v, i) => -(v + dT_strength * directConv[i]));
+
+  // ── Left panel: Direct profile ─────────────────────────────────────────
+  const traceDirect = {
+    x, y: directNeg,
+    name: 'Direct',
+    type: 'scatter', mode: 'lines',
+    line: { color: '#1565C0', width: 1.6 },
+    fill: 'tozeroy', fillcolor: 'rgba(21,101,192,0.08)',
+    xaxis: 'x', yaxis: 'y',
+    hovertemplate: 'λ=%{x:.1f} Å · Direct: <b>%{y:.4f}</b><extra></extra>',
+  };
+
+  // ── Right panel: dT/ΔT + leakage ──────────────────────────────────────
+  const traceDT = {
+    x, y: dTpanel,
+    name: 'dT/ΔT + α·Direct',
+    type: 'scatter', mode: 'lines',
+    line: { color: '#E65100', width: 1.6 },
+    fill: 'tozeroy', fillcolor: 'rgba(230,81,0,0.08)',
+    xaxis: 'x2', yaxis: 'y2',
+    hovertemplate: 'λ=%{x:.1f} Å · dT: <b>%{y:.4f}</b><extra></extra>',
+  };
+
+  const traces = [traceDirect, traceDT];
+
+  if (!plotReady) {
+    Plotly.newPlot('plot', traces, LAYOUT, PLOTLY_CFG);
+    plotReady = true;
+  } else {
+    Plotly.react('plot', traces, LAYOUT);
+  }
+
+  const ms = (performance.now() - t0).toFixed(1);
+  document.getElementById('status-msg').textContent  = statusMsg;
+  document.getElementById('status-time').textContent = ms + ' ms';
+}
+
+// Debounce: fire at most once per 40 ms while dragging
+let _debounce;
+const scheduleUpdate = () => {
+  clearTimeout(_debounce);
+  _debounce = setTimeout(updatePlot, 40);
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ENFORCE A >= B >= C
+// When one rotational constant changes, clamp the others so the ordering
+// is always maintained. Updates both `cur` and the slider UI.
+// ═══════════════════════════════════════════════════════════════════════════
+function enforceABC(changed) {
+  if (changed === 'A') {
+    // A was moved: pull B and C down if needed
+    if (cur.B > cur.A) cur.B = cur.A;
+    if (cur.C > cur.B) cur.C = cur.B;
+  } else if (changed === 'B') {
+    // B was moved: push A up or pull C down
+    if (cur.B > cur.A) cur.A = cur.B;
+    if (cur.C > cur.B) cur.C = cur.B;
+  } else if (changed === 'C') {
+    // C was moved: push B (and possibly A) up
+    if (cur.C > cur.B) cur.B = cur.C;
+    if (cur.B > cur.A) cur.A = cur.B;
+  }
+  // Sync sliders and displayed values
+  for (const key of ['A', 'B', 'C']) {
+    const sl = document.getElementById(`ps-${key}`);
+    if (sl && parseFloat(sl.value) !== cur[key]) {
+      sl.value = cur[key];
+      setSliderFill(sl, parseFloat(sl.min), parseFloat(sl.max), cur[key]);
+      const valEl = sl.parentElement.querySelector('.p-val');
+      if (valEl) valEl.textContent = fmtVal(key, cur[key]);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONTROLS — PHYSICAL PARAMETERS
+// ═══════════════════════════════════════════════════════════════════════════
+function buildControls() {
+  for (const [id, htmlLabel, unit, min, max, def, step, groupId] of PARAM_DEFS) {
+    const target = document.getElementById(groupId);
+
+    const row = document.createElement('div');
+    row.className = 'p-row';
+
+    const meta = document.createElement('div');
+    meta.className = 'p-meta';
+
+    const nameEl = document.createElement('span');
+    nameEl.className = 'p-name';
+    nameEl.innerHTML = htmlLabel + `<span class="p-unit">${unit}</span>`;
+
+    const valEl = document.createElement('span');
+    valEl.className = 'p-val';
+    valEl.id = `pv-${id}`;
+    valEl.textContent = fmtVal(id, def);
+
+    meta.append(nameEl, valEl);
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id   = `ps-${id}`;
+    slider.min  = min; slider.max = max; slider.step = step; slider.value = def;
+    setSliderFill(slider, min, max, def);
+
+    slider.addEventListener('input', () => {
+      const v = parseFloat(slider.value);
+      cur[id] = v;
+      valEl.textContent = fmtVal(id, v);
+      setSliderFill(slider, min, max, v);
+      // Enforce A >= B >= C
+      if (id === 'A' || id === 'B' || id === 'C') enforceABC(id);
+      scheduleUpdate();
+    });
+
+    row.append(meta, slider);
+    target.appendChild(row);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CONTROLS — SYMMETRY & MIXING
+// ═══════════════════════════════════════════════════════════════════════════
+function initMixingControls() {
+  // Symmetry toggle
+  const btnC2v = document.getElementById('btn-c2v');
+  const btnCs  = document.getElementById('btn-cs');
+  const rbcGrp = document.getElementById('rbc-group');
+  const subEl  = document.getElementById('header-sub');
+
+  function setSymmetry(sym) {
+    symmetry = sym;
+    btnC2v.classList.toggle('active', sym === 'c2v');
+    btnCs.classList.toggle('active',  sym === 'cs');
+    rbcGrp.classList.toggle('hidden', sym === 'c2v');
+    subEl.textContent = sym === 'c2v'
+      ? 'C₂ᵥ · b-type · direct + dT'
+      : `Cₛ · b + c type · r_BC = ${r_BC.toFixed(2)}`;
+    // Load the matching precomputed data set
+    loadPrecomputed(sym).then(ok => {
+      if (!ok) {
+        const statusEl = document.getElementById('status-msg');
+        statusEl.textContent = `No ${sym.toUpperCase()} data found — showing live approximation`;
+        const badge = document.getElementById('mode-badge');
+        badge.textContent = 'Live (no data)';
+        badge.classList.remove('precomputed');
+      }
+      updatePlot();
+    });
+  }
+
+  btnC2v.addEventListener('click', () => setSymmetry('c2v'));
+  btnCs.addEventListener('click',  () => setSymmetry('cs'));
+
+  // r_BC slider
+  const rbcSlider = document.getElementById('ps-rbc');
+  const rbcVal    = document.getElementById('pv-rbc');
+  setSliderFill(rbcSlider, 0, 10, r_BC);
+
+  rbcSlider.addEventListener('input', () => {
+    r_BC = parseFloat(rbcSlider.value);
+    rbcVal.textContent = r_BC.toFixed(2);
+    setSliderFill(rbcSlider, 0, 10, r_BC);
+    subEl.textContent = `Cₛ · b + c type · r_BC = ${r_BC.toFixed(2)}`;
+    scheduleUpdate();
+  });
+
+  // Lorentzian τ slider (online convolution)
+  const ltSlider = document.getElementById('ps-lorentz-tau');
+  const ltVal    = document.getElementById('pv-lorentz-tau');
+  setSliderFill(ltSlider, 0.001, 1.0, lorentzTau);
+
+  ltSlider.addEventListener('input', () => {
+    lorentzTau = parseFloat(ltSlider.value);
+    ltVal.textContent = fmtVal('tau', lorentzTau);
+    setSliderFill(ltSlider, 0.001, 1.0, lorentzTau);
+    scheduleUpdate();
+  });
+
+  // Gaussian σ slider (online convolution)
+  const gsSlider = document.getElementById('ps-gauss-sigma');
+  const gsVal    = document.getElementById('pv-gauss-sigma');
+  setSliderFill(gsSlider, 0.01, 0.5, gaussSigma);
+
+  gsSlider.addEventListener('input', () => {
+    gaussSigma = parseFloat(gsSlider.value);
+    gsVal.textContent = fmtVal('sigma', gaussSigma);
+    setSliderFill(gsSlider, 0.01, 0.5, gaussSigma);
+    scheduleUpdate();
+  });
+
+  // dT strength slider
+  const dtSlider = document.getElementById('ps-dt');
+  const dtVal    = document.getElementById('pv-dt');
+  setSliderFill(dtSlider, -0.025, 0.025, dT_strength);
+
+  dtSlider.addEventListener('input', () => {
+    dT_strength = parseFloat(dtSlider.value);
+    dtVal.textContent = dT_strength.toFixed(4);
+    setSliderFill(dtSlider, -0.025, 0.025, dT_strength);
+    scheduleUpdate();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+function setSliderFill(el, min, max, val) {
+  const pct = ((val - min) / (max - min) * 100).toFixed(2) + '%';
+  el.style.background =
+    `linear-gradient(to right, #1565C0 ${pct}, #E3F2FD ${pct})`;
+}
+
+function fmtVal(id, v) {
+  if (id === 'T') return Math.round(v) + ' K';
+  if (v === 0)     return '0';
+  if (v < 0.001)   return v.toExponential(2);
+  if (v < 0.01)    return v.toFixed(4);
+  if (v < 0.1)     return v.toFixed(3);
+  if (v < 10)      return v.toFixed(2);
+  return v.toFixed(1);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA LOADING
+// ═══════════════════════════════════════════════════════════════════════════
+// Cache loaded data per symmetry so we don't re-fetch on toggle
+const preCache = { cs: null, c2v: null };
+
+async function loadPrecomputed(sym) {
+  sym = sym || symmetry;
+  const urls = DATA_URLS[sym];
+  if (!urls) return false;
+
+  // Return cached data if already loaded
+  if (preCache[sym]) {
+    preIndex      = preCache[sym].index;
+    preBin        = preCache[sym].bin;
+    preWavelength = preCache[sym].wav;
+    buildNNRanges();
+    const badge = document.getElementById('mode-badge');
+    badge.textContent = 'Pre-computed';
+    badge.classList.add('precomputed');
+    return true;
+  }
+
+  const statusEl = document.getElementById('status-msg');
+  try {
+    statusEl.textContent = `Loading ${sym.toUpperCase()} index…`;
+    const idxResp = await fetch(urls.index);
+    if (!idxResp.ok) throw new Error(`Index HTTP ${idxResp.status}`);
+    preIndex = await idxResp.json();
+
+    statusEl.textContent = `Loading ${sym.toUpperCase()} spectra (${preIndex.n_spectra} × ${preIndex.n_wav} pts)…`;
+    const binResp = await fetch(urls.bin);
+    if (!binResp.ok) throw new Error(`Bin HTTP ${binResp.status}`);
+    preBin = await binResp.arrayBuffer();
+
+    // Extract wavelength array from start of binary
+    preWavelength = Array.from(new Float32Array(preBin, 0, preIndex.n_wav));
+
+    // Build NN normalisation ranges once
+    buildNNRanges();
+
+    // Cache for future toggles
+    preCache[sym] = { index: preIndex, bin: preBin, wav: preWavelength };
+
+    const badge = document.getElementById('mode-badge');
+    badge.textContent = 'Pre-computed';
+    badge.classList.add('precomputed');
+    console.log(`[spectrum_viewer] Loaded ${sym.toUpperCase()}: ${preIndex.n_spectra} spectra, `
+              + `${preIndex.n_wav} wavelength points, `
+              + `${(preBin.byteLength / 1e6).toFixed(1)} MB binary`);
+    return true;
+  } catch (e) {
+    console.warn(`[spectrum_viewer] Could not load ${sym.toUpperCase()} data — falling back to live mode.`, e.message);
+    preIndex = null; preBin = null; preWavelength = null;
+    return false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════════
+(async () => {
+  buildControls();
+  initMixingControls();
+  await loadPrecomputed();
+  updatePlot();
+})();
+</script>
+</body>
+</html>
