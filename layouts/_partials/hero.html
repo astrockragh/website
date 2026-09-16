@@ -11,11 +11,12 @@
     <div class="hero__stage">
       {{ range $i, $c := $clips }}
         {{ if lt $i 2 }}
+          {{/* No src and preload=none on purpose: reel.js attaches the source
+               after window.load, so the markup, CSS, font and poster still are
+               not competing with a 12.8MB clip for a narrow pipe. */}}
           <video class="hero__player" data-slot="{{ $i }}"
-                 muted playsinline loop disablepictureinpicture
-                 preload="{{ if eq $i 0 }}auto{{ else }}none{{ end }}"
-                 {{ if eq $i 0 }}src="{{ (index $clips 0).src | relURL }}"
-                 poster="{{ (index $clips 0).poster | relURL }}"{{ end }}></video>
+                 muted playsinline loop disablepictureinpicture preload="none"
+                 {{ if eq $i 0 }}poster="{{ (index $clips 0).poster | relURL }}"{{ end }}></video>
         {{ end }}
       {{ end }}
     </div>

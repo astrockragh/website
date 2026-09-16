@@ -47,6 +47,15 @@
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var small   = window.matchMedia('(max-width: 760px)').matches;
 
+  /* The reel is 26MB of decoration. Skip it outright when the browser says the
+     connection cannot carry it -- Save-Data, a 2g-class link, or a measured
+     downlink under 1.5Mbps, at which the first clip alone would take a minute.
+     Chromium-family only; elsewhere this is undefined and we just play. */
+  var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  var slowNet = !!(conn && (conn.saveData === true
+                 || /2g/.test(conn.effectiveType || '')
+                 || (typeof conn.downlink === 'number' && conn.downlink > 0 && conn.downlink < 1.5)));
+
   /* ---------- a clock that follows the picture ---------- */
 
   var timer = null, stallTimer = null, remaining = 0, startedAt = 0, running = false;
@@ -80,6 +89,13 @@
   }
 
   /* ---------- shared UI ---------- */
+
+  function afterLoad(fn) {
+    if (document.readyState === 'complete') { fn(); return; }
+    window.addEventListener('load', function once() {
+      window.removeEventListener('load', once); fn();
+    });
+  }
 
   function pad(n) { return (n < 10 ? '0' : '') + n; }
 
@@ -205,21 +221,27 @@
 
   window.console && console.info('[reel] clips:', clips.length,
     '| reduced-motion:', reduced, '| small screen:', small,
-    '|', (reduced || small) ? 'POSTER MODE (no video by design)' : 'video mode');
+    '| slow network:', slowNet, conn ? '(' + conn.effectiveType + ', ' + conn.downlink + 'Mbps)' : '(unknown)',
+    '|', (reduced || small || slowNet) ? 'POSTER MODE (no video by design)' : 'video mode');
 
-  if (reduced || small) {
+  if (reduced || small || slowNet) {
     reveal(0);                           // poster slideshow only
   } else {
     videoMode = true;
-    var first = videos[0];
-    if (!first.getAttribute('src')) first.src = clips[0].src;
-    var p0 = first.play();
-    if (p0 && p0.catch) p0.catch(function (err) {
-      window.console && console.warn('[reel] autoplay blocked:', err && err.name, '— staying on stills');
-    });
-    whenPlaying(first, function (timedOut) {
-      if (!timedOut) { first.classList.add('is-active'); watch(first); }
-      reveal(0);                         // clock starts with the picture
+    // Wait for load, not DOMContentLoaded: the clip must not compete with the
+    // stylesheet, the font and the poster still for bandwidth on a reload.
+    afterLoad(function () {
+      var first = videos[0];
+      first.preload = 'auto';
+      if (!first.getAttribute('src')) first.src = clips[0].src;
+      var p0 = first.play();
+      if (p0 && p0.catch) p0.catch(function (err) {
+        window.console && console.warn('[reel] autoplay blocked:', err && err.name, '— staying on stills');
+      });
+      whenPlaying(first, function (timedOut) {
+        if (!timedOut) { first.classList.add('is-active'); watch(first); }
+        reveal(0);                       // clock starts with the picture
+      });
     });
   }
 

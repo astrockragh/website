@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+.reel-nav button::after{content:'';display:block}
+</style></head><body>
+<section class="hero" data-reel data-duration="30000"
+  data-clips='[{"src":"a.mp4","caption":"AAA","href":"/1/","duration":3000},
+               {"src":"b.mp4","caption":"BBB","href":"/2/","duration":3000},
+               {"src":"c.mp4","caption":"CCC","href":"/3/","duration":3000}]'>
+  <div class="hero__media"><div class="hero__stage">
+    <video class="hero__player" data-slot="0" muted playsinline loop></video>
+    <video class="hero__player" data-slot="1" muted playsinline loop></video>
+  </div>
+  <div class="hero__poster is-active"></div><div class="hero__poster"></div><div class="hero__poster"></div>
+  </div>
+  <div class="hero__inner"><div class="hero__meta">
+    <div class="reel-caption"><div class="reel-caption__inner is-in"><a href="/1/">
+      <span class="reel-caption__index">01 / 03</span>
+      <span class="reel-caption__text">AAA</span></a></div></div>
+    <div class="reel-nav"><button aria-current="true"></button><button></button><button></button></div>
+  </div></div>
+</section>
+<script>
+/* Stub the media layer: play() resolves but produces no frames until the
+   test says so. This is the whole point — it reproduces a slow connection
+   deterministically, with no network involved. */
+window.__log = [];
+/* Pin navigator.connection: headless Chromium's downlink estimate drifts
+   around 1.4-1.6Mbps, straddling the 1.5 threshold, which made this flaky. */
+var __slow = new URLSearchParams(location.search).get('net') === 'slow';
+Object.defineProperty(navigator, 'connection', { configurable: true, value:
+  __slow ? { saveData:false, effectiveType:'3g', downlink:0.8 }
+         : { saveData:false, effectiveType:'4g', downlink:10 } });
+Object.defineProperty(HTMLMediaElement.prototype, 'currentTime',
+  { get(){ return this.__t || 0; }, set(v){ this.__t = v; }, configurable:true });
+HTMLMediaElement.prototype.play = function(){ this.__playCalled = (this.__playCalled||0)+1; return Promise.resolve(); };
+HTMLMediaElement.prototype.pause = function(){};
+HTMLMediaElement.prototype.load = function(){};
+window.__frames = function(v){ v.__t = 1; v.dispatchEvent(new Event('playing')); };
+window.__stall  = function(v){ v.dispatchEvent(new Event('waiting')); };
+window.__state  = function(){
+  const r = document.querySelector('[data-reel]');
+  return { play: r.style.getPropertyValue('--reel-play').trim(),
+           dur:  r.style.getPropertyValue('--reel-duration').trim(),
+           cap:  document.querySelector('.reel-caption__text').textContent,
+           cur:  [...document.querySelectorAll('.reel-nav button')].findIndex(b=>b.hasAttribute('aria-current')) };
+};
+</script>
+<script src="../../assets/js/reel.js"></script>
+</body></html>

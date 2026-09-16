@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Regenerate the link-preview image (static/img/og-cover.jpg).
 #
-# A still from the cosmic-web reel at t=10s -- the moment the density field has
+# A still from the cosmic-web reel at t=21s -- the second graph pass, where the edges are brightest. The
 # resolved into the halo graph. Earlier is empty, later it blurs back into a
 # density field, so the graph window is narrow: check the frame if you retime
 # the clip.
@@ -14,7 +14,7 @@ cd "$(dirname "$0")/.."
 
 SRC=static/video/01-cosmic-web.mp4
 OUT=static/img/og-cover.jpg
-AT=${1:-10.0}
+AT=${1:-21.0}
 
 ffmpeg -v error -ss "$AT" -i "$SRC" -frames:v 1 \
   -vf "crop=1920:1008:0:72,scale=1200:630:flags=lanczos" -q:v 2 "$OUT" -y

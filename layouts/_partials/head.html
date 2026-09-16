@@ -7,8 +7,10 @@
 <meta name="theme-color" content="#06070b">
 
 {{/* Link previews (Messages, Slack, Signal, X, ...). The image is a still from
-     the cosmic-web reel at t=10s, where the density field has resolved into the
-     halo graph; regenerate with tools/make_og_cover.sh if the clip changes. */}}
+     the cosmic-web reel at t=21s, the second graph pass where the edges are
+     brightest. The literal midpoint (13.5s) is the density-field phase, and
+     the first graph pass (10-11s) has edges too faint to survive being scaled
+     down to a preview thumbnail. Regenerate with tools/make_og_cover.sh. */}}
 {{ $og := "img/og-cover.jpg" | absURL }}
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:site_name" content="{{ site.Title }}">
@@ -34,6 +36,13 @@
 <link rel="icon" href="{{ "favicon-32.png" | relURL }}" sizes="32x32" type="image/png">
 <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any">
 <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+
+{{/* The hero still is a CSS background-image, so it is only discovered after
+     the stylesheet parses -- on a slow connection that left the hero black for
+     a beat. Preloading it lets the hero paint on the first frame. */}}
+{{ with (index site.Data.reel.clips 0).poster }}
+<link rel="preload" as="image" href="{{ . | relURL }}" fetchpriority="high">
+{{ end }}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
