@@ -1,0 +1,76 @@
+# Hero reel — five clips, self-hosted from static/video/.
+#
+# Each clip links to a RESEARCH DIRECTION, not a single project: `direction`
+# must match a `key` in data/directions.yaml, and layouts/_partials/hero.html
+# turns it into /projects/?d=<key>. A filtered list shows more of the work than
+# one project page does.
+# Order set by Christian: cosmic web → JWST → airglow → clustering → EVS.
+#
+# duration_ms is per clip: how long that clip holds the screen before the
+# crossfade. Clips loop natively, so this no longer has to dodge a loop point.
+# The site-wide value below is only a fallback.
+duration_ms: 30000
+
+clips:
+  - caption: "The cosmic web, encoded as a graph and ready for geometric machine learning · IllustrisTNG"
+    direction: gnn-environments
+    poster: /img/reel/01-cosmic-web-graph.jpg
+    # media/01-cosmic-web-27s.mp4 (27.0s) — Christian's own render, used as-is;
+    # only the burned-in caption strip was cropped off.
+    src: /video/01-cosmic-web.mp4
+    start: 0
+    duration_ms: 26000
+
+  - caption: "Revealing Cosmic Dawn · JWST and Roman"
+    direction: clustering-cosmic-var
+    poster: /img/reel/05-jwst.jpg
+    # media/05-jwst-deployment-20s.mp4 (20.0s). NASA SVS 14016, 100–103s
+    # retimed 6.67x. Credit: NASA Goddard Conceptual Image Lab.
+    src: /video/05-jwst.mp4
+    start: 0
+    duration_ms: 19000
+
+  # Footage is NASA's, not Christian's: ISS Expedition 70, Crew Earth
+  # Observations (public domain), credited in-frame bottom-right. The caption
+  # is honest about that while still pointing at his SuNSS work.
+  - caption: "Airglow and aurora from orbit · SuNSS and PFS see this from below"
+    direction: instruments
+    poster: /img/reel/04-airglow.jpg
+    # media/04-airglow-40s.mp4 (40.0s), assembled from NASA frames
+    # ISS070-E-71956..72300 (17 Jan 2024), not from a YouTube edit.
+    src: /video/04-airglow.mp4
+    start: 0
+    duration_ms: 39000
+
+  # The animation is CAASTRO's, not Christian's — credited in-frame top-left
+  # and on the project page. Public domain dedication (CC0-equivalent), so no
+  # attribution obligation; the credit is a deliberate choice.
+  - caption: "Counting pairs into a correlation function, a way to measure galaxy clustering"
+    direction: clustering-cosmic-var
+    poster: /img/reel/06-clustering.jpg
+    # media/06-clustering-15s.mp4 (15.8s)
+    src: /video/06-clustering.mp4
+    start: 0
+    duration_ms: 15000
+
+  - caption: "Ultramassive quiescent galaxies in extreme environments explain their extraordinary mass at z ≈ 3-5"
+    direction: clustering-cosmic-var
+    poster: /img/reel/02-ultramassive.jpg
+    # media/02-ultramassive-20s.mp4 (20.0s). Zoom tour with the M_max posterior
+    # inset — extreme value statistics — climbing to 10.80 at 10s, then held.
+    src: /video/02-ultramassive.mp4
+    start: 0
+    duration_ms: 19000
+
+# TODO (slot 3, the spectra clip): pull a segment out of
+#   https://www.youtube.com/watch?v=TiXUFZX-ACk
+# and cut it to a hero clip. Then add it back into `clips` above with
+#   caption: "Predicting infrared emission from optical spectra"
+#   direction: spectra      <- the one direction no clip currently points at
+#
+# Licence, uploader and original source are still unverified (YouTube rate-limited
+# the check). Confirm reuse is permitted first, and prefer the original over the
+# YouTube copy if one exists — every other clip here came from its primary source.
+#
+# Alternative material, all Christian's own: the molecular spectra binaries in
+# static/data/ and static/widgets/spectrum_viewer.html.

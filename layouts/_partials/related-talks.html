@@ -1,0 +1,15 @@
+{{ $slug := path.Base .File.Dir }}
+{{ $talks := where (where site.RegularPages "Section" "talks") "Params.projects" "intersect" (slice $slug) }}
+{{ with $talks }}
+  <div class="related">
+    <p class="eyebrow">Talks on this</p>
+    <ul>
+      {{ range (first 6 (sort . "Date" "desc")) }}
+        <li>
+          <a class="link-u" href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <span class="mono" style="color:var(--text-dim)"> — {{ .Date.Format "Jan 2006" }}</span>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+{{ end }}

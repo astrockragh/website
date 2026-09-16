@@ -1,0 +1,52 @@
+{{ $clips := site.Data.reel.clips }}
+{{ $dur := default 60000 site.Data.reel.duration_ms }}
+{{ $json := slice }}
+{{ range $clips }}
+  {{ $href := printf "%s?d=%s" ("/projects/" | relURL) .direction }}
+  {{ $json = $json | append (dict "src" (.src | relURL) "caption" .caption "href" $href "duration" (default 0 .duration_ms)) }}
+{{ end }}
+
+<section class="hero" data-reel data-duration="{{ $dur }}" data-clips="{{ $json | jsonify }}">
+  <div class="hero__media">
+    <div class="hero__stage">
+      {{ range $i, $c := $clips }}
+        {{ if lt $i 2 }}
+          <video class="hero__player" data-slot="{{ $i }}"
+                 muted playsinline loop disablepictureinpicture
+                 preload="{{ if eq $i 0 }}auto{{ else }}none{{ end }}"
+                 {{ if eq $i 0 }}src="{{ (index $clips 0).src | relURL }}"
+                 poster="{{ (index $clips 0).poster | relURL }}"{{ end }}></video>
+        {{ end }}
+      {{ end }}
+    </div>
+    {{ range $i, $c := $clips }}
+      <div class="hero__poster{{ if eq $i 0 }} is-active{{ end }}"
+           {{ with $c.poster }}style="background-image:url('{{ . | relURL }}')"{{ end }}></div>
+    {{ end }}
+  </div>
+  <div class="hero__scrim"></div>
+
+  <div class="hero__inner">
+    <p class="eyebrow hero__eyebrow">{{ site.Params.hero.eyebrow }}</p>
+    <h1 class="hero__headline">{{ site.Params.hero.headline }}</h1>
+    <p class="hero__name">{{ site.Params.hero.name }}</p>
+
+    <div class="hero__meta">
+      <div class="reel-caption">
+        <div class="reel-caption__inner is-in">
+          <a href="{{ printf "%s?d=%s" ("/projects/" | relURL) (index $clips 0).direction }}">
+            <span class="mono reel-caption__index">01 / {{ printf "%02d" (len $clips) }}</span>
+            <span class="reel-caption__text">{{ (index $clips 0).caption }}</span>
+            <span class="reel-caption__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+      <div class="reel-nav" role="tablist" aria-label="Banner clips">
+        {{ range $i, $c := $clips }}
+          <button type="button" {{ if eq $i 0 }}aria-current="true"{{ end }}
+                  aria-label="Clip {{ add $i 1 }}: {{ $c.caption }}"></button>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

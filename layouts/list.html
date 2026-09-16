@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <section class="section" style="padding-top:clamp(7rem,16vh,11rem)">
+    <div class="wrap">
+      <h1 class="section__title" style="font-size:var(--step-3)">{{ .Title }}</h1>
+      <div style="max-width:68ch;margin-top:1.5rem;color:var(--text-mid)">{{ .Content }}</div>
+      <hr class="rule" style="margin:3rem 0">
+      {{ range .Pages }}
+        <article data-reveal style="padding-block:1.6rem;border-bottom:1px solid var(--line)">
+          <a href="{{ .RelPermalink }}" class="link-u" style="font-size:var(--step-1)">{{ .Title }}</a>
+          <p style="color:var(--text-mid);font-size:var(--step--1);margin-top:.5rem">{{ .Summary }}</p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

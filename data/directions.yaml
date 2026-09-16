@@ -1,0 +1,39 @@
+# Research directions. The first four are shown as cards on the front page and as
+# the primary filter row on /projects/; `beyond-galaxies` is filter-only (see the
+# `key != beyond-galaxies` guard in layouts/home.html) because the front page is a
+# pitch and "work from before the current directions" is not a pitch. Give it an
+# `image:` and drop that guard if it should appear there too.
+#
+# A project's `direction:` is a LIST — a project can sit in several bins, and
+# several do. `key` must match those entries exactly.
+#
+# Edit `short` (filter chip), `title` (card heading) or `summary` (card caption)
+# freely; the front page and the Research filter both follow.
+intro: "Four directions, centered around a common goal. Better data analysed with better models → better understanding of the Universe."
+items:
+  - key: gnn-environments
+    short: "Environments & assembly with GNNs"
+    title: "Galaxy environments and assembly with GNNs"
+    summary: "Halo merger histories and large-scale environment encoded as graphs, and modelled with Graph Neural Networks."
+    image: /img/directions/gnn-environments.jpg
+    invert: true
+  - key: clustering-cosmic-var
+    short: "Clustering & cosmic variance"
+    title: "Clustering and cosmic variance in the high-z Universe"
+    summary: "Using the clustering of the earliest galaxies to constrain and explain early galaxy physics — or marginalizing it away when we do not know it."
+    image: /img/directions/clustering-cosmic-var.jpg
+    invert: true
+  - key: spectra
+    short: "Spectra"
+    title: "Data-driven science with spectra"
+    summary: "Spectra are the most information-rich data type we have, and they are the cornerstone of galaxy property inference. Whether for galaxy evolution or instrument calibration, we can do better science and make better models by using them more effectively."
+    image: /img/directions/spectra.jpg
+  - key: instruments
+    short: "Instruments"
+    title: "Instrument optimization"
+    summary: "Calibration from the Earth's sky itself. Airglow, sky subtraction and wavelength solutions for the Prime Focus Spectrograph, plus PSF work for COSMOS2020."
+    image: /img/directions/instruments.jpg
+  - key: beyond-galaxies
+    short: "Beyond galaxies"
+    title: "Beyond galaxies"
+    summary: "Work from earlier in my career: neutrino event reconstruction at IceCube, particle classification for ATLAS detector calibration, and cleanly separating gamma-ray bursts into two classes."

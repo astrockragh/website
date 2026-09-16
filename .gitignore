@@ -1,0 +1,14 @@
+node_modules/
+public/
+resources/_gen/
+.hugo_build.lock
+.DS_Store
+__pycache__/
+
+# video working files -- masters in media/*.mp4 ARE tracked
+media/_superseded/
+media/_alternatives/
+media/_preview/
+
+# scratch (safe to delete)
+.alias-tmp/

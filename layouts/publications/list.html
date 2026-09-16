@@ -1,0 +1,23 @@
+{{ define "main" }}
+  {{ partial "page-head.html" . }}
+  <section class="section" style="padding-top:0">
+    <div class="wrap wrap--wide">
+      {{/* The hand-maintained entries were always going stale, so the page points
+           at the two lists that maintain themselves. The publication pages are
+           still built and still linked from projects — they are just not indexed
+           here. */}}
+      <p class="lede">
+        My publication list lives where it stays current, rather than here:
+      </p>
+      <p class="linkrow" style="margin-top:2.2rem">
+        <a class="chip" href="https://ui.adsabs.harvard.edu/search/fq=%7B!type%3Daqp%20v%3D%24fq_database%7D&amp;fq_database=(database%3Aastronomy%20OR%20database%3Aphysics)&amp;q=((author%3A%22Jespersen%2C%20Christian%20K.%22%20or%20author%3A%22Kragh%20Jespersen%2C%20Christian%22)%20AND%20year%3A2020-)&amp;sort=date%20desc%2C%20bibcode%20desc&amp;p_=0">NASA ADS &rarr;</a>
+        <a class="chip" href="https://scholar.google.com/citations?user=0FjNowwAAAAJ">Google Scholar &rarr;</a>
+        <a class="chip" href="https://orcid.org/0000-0002-8896-6496">ORCID &rarr;</a>
+      </p>
+      <p class="pub__venue" style="margin-top:2.6rem">
+        For the story behind any of it, the <a class="link-u" href="{{ "/projects/" | relURL }}">research pages</a>
+        explain what each project was actually about.
+      </p>
+    </div>
+  </section>
+{{ end }}

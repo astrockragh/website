@@ -1,0 +1,10 @@
+{{ define "main" }}
+  <article class="section article">
+    <div class="wrap wrap--wide">
+      <p class="eyebrow"><a class="back" href="{{ "/blog/" | relURL }}">&larr; Blog</a></p>
+      <h1 class="article__title">{{ .Title }}</h1>
+      <p class="article__meta mono">{{ .Date.Format "2 January 2006" }}{{ if gt .ReadingTime 0 }} · {{ .ReadingTime }} min read{{ end }}</p>
+      <div class="prose">{{ .Content }}</div>
+    </div>
+  </article>
+{{ end }}

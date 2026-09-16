@@ -1,0 +1,21 @@
+{{ $kind := "" }}
+{{ range .Params.tags }}{{ if in (slice "Invited" "Contributed" "Internal") . }}{{ $kind = . }}{{ end }}{{ end }}
+<li class="talk" data-kind="{{ $kind }}">
+  <a href="{{ .RelPermalink }}">
+    {{/* Small square thumbnail. A handful of talks have no figure of their own and
+         borrow one from a closely related talk; aas-exoplanet has none at all and
+         renders as an empty tinted slot so the rows stay aligned. */}}
+    <span class="talk__thumb{{ if .Params.light_figure }} talk__thumb--invert{{ end }}">
+      {{ with .Resources.GetMatch (.Params.image | default "featured.*") }}
+        {{ $t := .Fill "160x160 Center" }}
+        <img src="{{ $t.RelPermalink }}" alt="" loading="lazy" width="160" height="160">
+      {{ end }}
+    </span>
+    <time class="mono talk__date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan" }}</time>
+    <span class="talk__title">{{ .Title }}</span>
+    <span class="talk__meta">
+      {{ with .Params.location }}<span class="talk__loc">{{ . }}</span>{{ end }}
+      {{ with $kind }}<span class="tag tag--{{ lower . }}">{{ . }}</span>{{ end }}
+    </span>
+  </a>
+</li>

@@ -1,0 +1,7 @@
+<header class="page-head">
+  <div class="wrap">
+    {{ with .Params.kicker }}<p class="eyebrow" data-reveal>{{ . }}</p>{{ end }}
+    <h1 class="page-head__title" data-reveal>{{ .Params.headline | default .Title }}</h1>
+    {{ with .Params.summary }}<p class="lede page-head__lede" data-reveal>{{ . }}</p>{{ end }}
+  </div>
+</header>

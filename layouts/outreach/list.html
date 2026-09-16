@@ -1,0 +1,18 @@
+{{ define "main" }}
+  {{ partial "page-head.html" . }}
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      {{ range .Pages.ByDate.Reverse }}
+        <article class="post" data-reveal>
+          <a href="{{ with .Params.external_link }}{{ . }}{{ else }}{{ .RelPermalink }}{{ end }}">
+            <p class="mono post__date">
+              {{ .Date.Format "2 January 2006" }}{{ with .Params.external_link }} · external{{ end }}
+            </p>
+            <h2 class="post__title">{{ .Title }}</h2>
+            {{ with .Params.summary }}<p class="post__summary">{{ . }}</p>{{ end }}
+          </a>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

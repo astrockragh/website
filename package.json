@@ -1,0 +1,11 @@
+{
+  "name": "ckj-site",
+  "private": true,
+  "scripts": {
+    "dev": "hugo server --disableFastRender",
+    "build": "hugo --minify"
+  },
+  "devDependencies": {
+    "hugo-extended": "^0.165.0"
+  }
+}

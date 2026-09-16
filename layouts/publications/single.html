@@ -1,0 +1,13 @@
+{{ define "main" }}
+  <article class="section article">
+    <div class="wrap wrap--wide">
+      <p class="eyebrow"><a class="back" href="{{ "/publications/" | relURL }}">&larr; Publications</a></p>
+      <h1 class="article__title">{{ .Title }}</h1>
+      {{ with .Params.authors }}<p class="pub__authors" style="margin-top:1.4rem">{{ delimit . ", " }}</p>{{ end }}
+      <p class="article__meta mono">{{ .Date.Format "January 2006" }}{{ with .Params.publication }} · {{ . }}{{ end }}</p>
+      {{ partial "links.html" . }}
+      {{ with .Params.abstract }}<div class="prose" style="margin-top:2.5rem">{{ . | markdownify }}</div>{{ end }}
+      <div class="prose">{{ .Content }}</div>
+    </div>
+  </article>
+{{ end }}

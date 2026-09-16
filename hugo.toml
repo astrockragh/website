@@ -1,0 +1,69 @@
+baseURL = "https://astrockragh.github.io/"
+languageCode = "en-us"
+title = "Christian Kragh Jespersen"
+enableRobotsTXT = true
+
+# Hugo drops future-dated content by default, which would silently hide every
+# upcoming talk — and the whole point of the Upcoming block on /talks is to
+# show them. Without this, adding a talk dated next month makes it disappear.
+buildFuture = true
+enableGitInfo = false
+summaryLength = 30
+
+[params]
+  author = "Christian Kragh Jespersen"
+  description = "Modelling and measuring the Universe. Schmidt AI in Science / CITA Fellow."
+  email = "christian.jespersen@utoronto.ca"
+
+[params.hero]
+  eyebrow = "Schmidt AI in Science Fellow · CITA Fellow · University of Toronto"
+  headline = "Modelling and measuring the Universe"
+  name = "Christian Kragh Jespersen"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  noClasses = false
+  style = "github-dark"
+
+[taxonomies]
+  tag = "tags"
+
+[menus]
+  [[menus.main]]
+    name = "About me"
+    url = "/about/"
+    weight = 5
+  [[menus.main]]
+    name = "Research"
+    url = "/projects/"
+    weight = 10
+  [[menus.main]]
+    name = "Publications"
+    url = "/publications/"
+    weight = 20
+  [[menus.main]]
+    name = "Talks"
+    url = "/talks/"
+    weight = 30
+  [[menus.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 40
+  [[menus.main]]
+    name = "Outreach"
+    url = "/outreach/"
+    weight = 50
+  [[menus.main]]
+    name = "Work with me"
+    url = "/work-with-me/"
+    weight = 55
+  [[menus.main]]
+    name = "Visit"
+    url = "/visit/"
+    weight = 57
+  [[menus.main]]
+    name = "CV"
+    url = "/uploads/cv.pdf"
+    weight = 60

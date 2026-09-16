@@ -1,0 +1,16 @@
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ "/" | relURL }}">
+      Christian Kragh Jespersen
+      <span>Schmidt AI in Science · CITA Fellow</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M3 7h16M3 15h16" stroke="currentColor" stroke-width="1.4"/>
+      </svg>
+    </button>
+    <nav class="nav" data-open="false">
+      {{ range site.Menus.main }}<a href="{{ .URL | relURL }}">{{ .Name }}</a>{{ end }}
+    </nav>
+  </div>
+</header>

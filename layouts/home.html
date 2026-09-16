@@ -1,0 +1,101 @@
+{{ define "main" }}
+  {{ partial "hero.html" . }}
+
+  {{/* ---------- the short version ---------- */}}
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>The short version</p>
+        <div data-reveal>
+          <a class="shortver" href="{{ "/about/" | relURL }}">
+            <div class="lede">{{ .Content }}</div>
+            <span class="mono shortver__more">The longer version <span aria-hidden="true">&rarr;</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {{/* ---------- four research directions ---------- */}}
+  {{ with site.Data.directions }}
+  <section class="section section--line">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>Research directions</p>
+        <h2 class="section__title" data-reveal><a href="{{ "/projects/" | relURL }}">{{ .intro }}</a></h2>
+      </div>
+    </div>
+    {{/* beyond-galaxies is filter-only; see the comment in data/directions.yaml */}}
+    {{ $cards := where .items "key" "!=" "beyond-galaxies" }}
+    <div class="work" data-reveal>
+      {{ range $i, $d := $cards }}
+        <article class="work__item">
+          <div class="work__figure{{ if $d.invert }} work__figure--invert{{ end }}">
+            {{ with $d.image }}<img src="{{ . | relURL }}" alt="" loading="lazy" width="1200" height="750">{{ end }}
+          </div>
+          <p class="mono work__num">{{ printf "%02d" (add $i 1) }}</p>
+          {{/* The whole card is the link (see .work__item a::before), and it lands
+               on /projects/ with this direction preselected. */}}
+          <h3 class="work__title"><a href="{{ printf "%s?d=%s" ("/projects/" | relURL) $d.key }}">{{ $d.title }}</a></h3>
+          <p class="work__desc">{{ $d.summary }}</p>
+          <p class="mono work__more">See the projects <span aria-hidden="true">&rarr;</span></p>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* ---------- next talks ---------- */}}
+  {{ $talks := where site.RegularPages "Section" "talks" }}
+  {{ $upcoming := (where $talks "Date" "gt" now).ByDate }}
+  {{ $recent := (where $talks "Date" "lt" now).ByDate.Reverse }}
+  {{/* Show what is coming up; if fewer than three are scheduled, top the list
+       up with the most recent past talks so the block is never half empty. */}}
+  {{ $ordered := $upcoming }}
+  {{ range $recent }}{{ $ordered = $ordered | append . }}{{ end }}
+  {{ $show := first 3 $ordered }}
+  {{ with $show }}
+  <section class="section section--line">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>{{ if $upcoming }}Where I'll be{{ else }}Recent talks{{ end }}</p>
+        <h2 class="section__title" data-reveal><a href="{{ "/talks/" | relURL }}">Talks, seminars and colloquia.</a></h2>
+      </div>
+      <ul class="talks" data-reveal>
+        {{ range . }}{{ partial "talk-row.html" . }}{{ end }}
+      </ul>
+      <p class="seeall"><a class="mono link-u" href="{{ "/talks/" | relURL }}">All talks <span aria-hidden="true">&rarr;</span></a></p>
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* ---------- latest writing ---------- */}}
+  {{/* Pinned posts lead, then the most recent fill the row. Pin one by putting
+       `pinned: true` in its front matter. */}}
+  {{ $blog := (where site.RegularPages "Section" "blog").ByDate.Reverse }}
+  {{ $ordered := where $blog "Params.pinned" true }}
+  {{ range $blog }}{{ if not .Params.pinned }}{{ $ordered = $ordered | append . }}{{ end }}{{ end }}
+  {{ $posts := first 3 $ordered }}
+  {{ with $posts }}
+  <section class="section section--line">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow" data-reveal>Latest personal writings</p>
+        <h2 class="section__title" data-reveal><a href="{{ "/blog/" | relURL }}">Reflections on life as an astrophysicist</a></h2>
+      </div>
+      <div class="notes" data-reveal>
+        {{ range . }}
+          <article class="note">
+            <a href="{{ .RelPermalink }}">
+              <p class="mono note__date">{{ .Date.Format "2 January 2006" }}{{ if .Params.pinned }} <span class="note__pin">Pinned</span>{{ end }}</p>
+              <h3 class="note__title">{{ .Title }}</h3>
+              {{ with .Params.summary }}<p class="note__summary">{{ . }}</p>{{ end }}
+            </a>
+          </article>
+        {{ end }}
+      </div>
+      <p class="seeall"><a class="mono link-u" href="{{ "/blog/" | relURL }}">All posts <span aria-hidden="true">&rarr;</span></a></p>
+    </div>
+  </section>
+  {{ end }}
+{{ end }}

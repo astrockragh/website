@@ -1,0 +1,14 @@
+<figure class="fig{{ with .Get "class" }} {{ . }}{{ end }}">
+  {{ $src := .Get "src" }}
+  {{ $r := "" }}
+  {{ with $.Page.Resources.GetMatch $src }}{{ $r = . }}{{ end }}
+  {{ if $r }}
+    {{ $img := $r }}
+    {{ if gt $r.Width 1800 }}{{ $img = $r.Resize "1800x q82" }}{{ end }}
+    <img src="{{ $img.RelPermalink }}" alt="{{ .Get "alt" | default (.Get "caption") }}"
+         width="{{ $img.Width }}" height="{{ $img.Height }}" loading="lazy">
+  {{ else }}
+    <img src="{{ $src }}" alt="{{ .Get "alt" | default (.Get "caption") }}" loading="lazy">
+  {{ end }}
+  {{ with .Get "caption" }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

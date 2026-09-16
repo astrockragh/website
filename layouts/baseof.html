@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  {{ partial "head.html" . }}
+  {{ if partial "has-math.html" . }}{{ partial "math.html" . }}{{ end }}
+</head>
+<body>
+  {{ partial "header.html" . }}
+  <main id="main">{{ block "main" . }}{{ end }}</main>
+  {{ partial "footer.html" . }}
+  {{ $js := slice (resources.Get "js/site.js") (resources.Get "js/reel.js")
+      | resources.Concat "js/bundle.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{{ define "main" }}
+  {{ partial "page-head.html" . }}
+  {{ $now := now }}
+  {{ $all := .Pages.ByDate.Reverse }}
+  {{ $upcoming := where $all "Date" "gt" $now }}
+  {{ $past := where $all "Date" "lt" $now }}
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="filters" data-filters>
+        <button type="button" data-filter="all" aria-pressed="true">All <span class="mono">{{ len $all }}</span></button>
+        <button type="button" data-filter="Invited" aria-pressed="false">Invited <span class="mono">{{ len (where $all "Params.tags" "intersect" (slice "Invited")) }}</span></button>
+        <button type="button" data-filter="Contributed" aria-pressed="false">Contributed <span class="mono">{{ len (where $all "Params.tags" "intersect" (slice "Contributed")) }}</span></button>
+      </div>
+
+      {{ with $upcoming }}
+        <h2 class="group-head"><span class="dot" aria-hidden="true"></span>Upcoming</h2>
+        <ul class="talks">
+          {{ range .ByDate }}{{ partial "talk-row.html" . }}{{ end }}
+        </ul>
+      {{ end }}
+
+      {{ range $past.GroupByDate "2006" }}
+        <h2 class="group-head">{{ .Key }}</h2>
+        <ul class="talks">
+          {{ range .Pages }}{{ partial "talk-row.html" . }}{{ end }}
+        </ul>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,28 @@
+{{/* Wrap every markdown table in a scrollable box.
+
+     The funding table on /work-with-me/ has a minimum content width of ~375px,
+     so on a 360px phone it pushed the whole page sideways. This is not about the
+     max-width cap — that is inert at phone widths — it is the table's own content.
+     Now a wide table scrolls inside its own box and the page never does. */}}
+<div class="table-wrap">
+  <table>
+    <thead>
+      {{ range .THead }}
+        <tr>
+          {{ range . }}
+            <th {{ with .Alignment }}style="text-align: {{ . }}"{{ end }}>{{ .Text }}</th>
+          {{ end }}
+        </tr>
+      {{ end }}
+    </thead>
+    <tbody>
+      {{ range .TBody }}
+        <tr>
+          {{ range . }}
+            <td {{ with .Alignment }}style="text-align: {{ . }}"{{ end }}>{{ .Text }}</td>
+          {{ end }}
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>

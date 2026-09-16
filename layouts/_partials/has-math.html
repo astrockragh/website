@@ -1,0 +1,23 @@
+{{/* True when KaTeX should be loaded for this page.
+
+     The original test was one regex for inline $…$ on a single line, run against
+     .Content only. It missed three classes of page:
+       - display math written as $$ on its own line (molecule-simulator)
+       - math in a front-matter field the template renders, e.g. `abstract` on
+         eight talk pages, or a title containing $V^0$
+       - list pages whose CHILD titles contain math
+
+     For this page we probe the rendered content, the title, and EVERY front-matter
+     field (via jsonify, so a new field can never silently reintroduce the bug).
+     For children we probe only title and summary, since that is all a list page
+     shows — probing their abstracts too would load KaTeX on /talks/ for math that
+     never appears there.
+
+     Known gap: the front page pulls talk and post titles through its own queries
+     rather than .Pages, so math in one of those would not be caught. Nothing on
+     the front page has math today. */}}
+{{ $probe := printf "%s %s %s" .Content .Title (.Params | jsonify) }}
+{{ range .Pages }}
+  {{ $probe = printf "%s %s %s" $probe .Title (.Params.summary | default .Summary) }}
+{{ end }}
+{{ return (or .Params.math (gt (len (findRE `\$\$|\\\(|\\\[|\$[^$\n]+\$` $probe 1)) 0)) }}

@@ -1,0 +1,21 @@
+{{ define "main" }}
+  <article class="article">
+    {{ with .Resources.GetMatch (.Params.image | default "featured.*") }}
+      {{ $img := .Fill "2400x1100 Center" }}
+      <div class="article__hero{{ if .Params.light_figure }} article__hero--invert{{ end }}">
+        <img src="{{ $img.RelPermalink }}" alt="" width="2400" height="1100">
+        <div class="article__hero-scrim"></div>
+      </div>
+    {{ end }}
+    <div class="wrap wrap--wide article__lead">
+      <p class="eyebrow"><a class="back" href="{{ "/projects/" | relURL }}">&larr; Research</a></p>
+      <h1 class="article__title">{{ .Title }}</h1>
+      {{ with .Params.summary }}<div class="lede" style="margin-top:1.6rem">{{ . | markdownify }}</div>{{ end }}
+      {{ partial "links.html" . }}
+    </div>
+    <div class="wrap wrap--wide">
+      <div class="prose">{{ .Content }}</div>
+      {{ partial "related-talks.html" . }}
+    </div>
+  </article>
+{{ end }}

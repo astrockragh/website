@@ -1,0 +1,8 @@
+{{ define "main" }}
+  <article class="article">
+    {{ partial "page-head.html" . }}
+    <div class="wrap wrap--wide">
+      <div class="prose" style="margin-top:0">{{ .Content }}</div>
+    </div>
+  </article>
+{{ end }}

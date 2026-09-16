@@ -1,0 +1,12 @@
+{{ $l := slice }}
+{{ with .Params.url_slides }}{{ $l = $l | append (dict "t" "Slides" "u" .) }}{{ end }}
+{{ with .Params.url_pdf }}{{ $l = $l | append (dict "t" "PDF" "u" .) }}{{ end }}
+{{ with .Params.url_video }}{{ $l = $l | append (dict "t" "Video" "u" .) }}{{ end }}
+{{ with .Params.url_code }}{{ $l = $l | append (dict "t" "Code" "u" .) }}{{ end }}
+{{ with .Params.url_poster }}{{ $l = $l | append (dict "t" "Poster" "u" .) }}{{ end }}
+{{ with .Params.doi }}{{ $l = $l | append (dict "t" "DOI" "u" (printf "https://doi.org/%s" .)) }}{{ end }}
+{{ with $l }}
+  <div class="linkrow">
+    {{ range . }}<a class="chip" href="{{ .u }}">{{ .t }}</a>{{ end }}
+  </div>
+{{ end }}

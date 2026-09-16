@@ -1,0 +1,57 @@
+{{ define "main" }}
+  {{ partial "page-head.html" . }}
+  {{ $pages := .Pages.ByWeight }}
+  {{ $dirs := site.Data.directions.items }}
+
+  {{/* Keyword vocabulary comes from the projects themselves, so adding a tag to a
+       project adds the chip. Sorted alphabetically for a stable order. */}}
+  {{ $keywords := slice }}
+  {{ range $pages }}{{ range .Params.tags }}{{ $keywords = $keywords | append . }}{{ end }}{{ end }}
+  {{ $keywords = $keywords | uniq | sort }}
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="filters" data-filter-group="direction" aria-label="Filter by research direction">
+        <button type="button" data-value="all" aria-pressed="true">All <span class="mono">{{ len $pages }}</span></button>
+        {{ range $dirs }}
+          <button type="button" data-value="{{ .key }}" aria-pressed="false">{{ .short | default .title }}
+            <span class="mono">{{ len (where $pages "Params.direction" "intersect" (slice .key)) }}</span></button>
+        {{ end }}
+      </div>
+
+      <div class="filters filters--sub" data-filter-group="keyword" aria-label="Filter by keyword">
+        <button type="button" data-value="all" aria-pressed="true">All keywords</button>
+        {{ range $keywords }}
+          <button type="button" data-value="{{ . }}" aria-pressed="false">{{ . }}
+            <span class="mono">{{ len (where $pages "Params.tags" "intersect" (slice .)) }}</span></button>
+        {{ end }}
+      </div>
+
+      <p class="filters__empty" data-empty hidden>No projects match that combination — try widening one of the filters.</p>
+    </div>
+
+    <div class="cards" data-project-grid>
+      {{ range $pages }}
+        <article class="card" data-reveal
+                 data-direction="{{ delimit .Params.direction "|" }}"
+                 data-tags="{{ delimit .Params.tags "|" }}">
+          <a href="{{ .RelPermalink }}">
+            <div class="card__figure{{ if .Params.light_figure }} card__figure--invert{{ end }}">
+              {{ with .Resources.GetMatch (printf "%s" (.Params.image | default "featured.*")) }}
+                {{ $img := .Fill "1200x750 Center" }}
+                <img src="{{ $img.RelPermalink }}" alt="" loading="lazy" width="1200" height="750">
+              {{ end }}
+            </div>
+            <div class="card__body">
+              <h2 class="card__title">{{ .Title }}</h2>
+              {{ with .Params.summary }}<p class="card__summary">{{ . | markdownify }}</p>{{ end }}
+              {{ with .Params.tags }}
+                <p class="card__tags mono">{{ delimit (first 3 .) " · " }}</p>
+              {{ end }}
+            </div>
+          </a>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

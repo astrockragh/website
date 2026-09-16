@@ -1,0 +1,14 @@
+{{ with .Params.projects }}
+  {{ $rel := slice }}
+  {{ range . }}
+    {{ with site.GetPage (printf "/projects/%s" .) }}{{ $rel = $rel | append . }}{{ end }}
+  {{ end }}
+  {{ with $rel }}
+    <div class="related">
+      <p class="eyebrow">Related work</p>
+      <ul>
+        {{ range . }}<li><a class="link-u" href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+      </ul>
+    </div>
+  {{ end }}
+{{ end }}

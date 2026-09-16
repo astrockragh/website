@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <article class="section article">
+    <div class="wrap wrap--wide">
+      <p class="eyebrow"><a class="back" href="{{ "/talks/" | relURL }}">&larr; Talks</a></p>
+      <h1 class="article__title">{{ .Title }}</h1>
+      <p class="article__meta mono">
+        {{ .Date.Format "2 January 2006" }}{{ with .Params.location }} · {{ . }}{{ end }}
+      </p>
+      {{ with .Params.abstract }}<div class="lede" style="margin-block:2rem">{{ . | markdownify }}</div>{{ end }}
+      {{ partial "links.html" . }}
+      <div class="prose">{{ .Content }}</div>
+      {{ partial "related-projects.html" . }}
+    </div>
+  </article>
+{{ end }}

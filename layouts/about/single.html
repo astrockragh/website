@@ -1,0 +1,87 @@
+{{ define "main" }}
+  <article class="article">
+    {{ partial "page-head.html" . }}
+
+    <div class="wrap">
+      <div class="about">
+
+        <div class="about__bio" data-reveal>
+          {{ .Content }}
+          {{ with .Params.updated }}
+            <p class="mono about__updated">Last updated {{ . }}</p>
+          {{ end }}
+        </div>
+
+        <aside class="about__aside" data-reveal>
+          <div class="infobox">
+            {{ with .Params.portrait }}
+              <div class="infobox__portrait">
+                <img src="{{ . | relURL }}" alt="Christian Kragh Jespersen" loading="lazy" width="887" height="900">
+              </div>
+            {{ end }}
+            <div class="infobox__body">
+
+              <h2 class="infobox__name">{{ site.Params.author }}</h2>
+              {{ with .Params.role }}<p class="infobox__role">{{ . }}</p>{{ end }}
+
+              {{ with .Params.affiliations }}
+                <div class="infobox__block">
+                  <p class="eyebrow infobox__label">Affiliations</p>
+                  <ul class="infobox__list">
+                    {{ range . }}
+                      <li>{{ if .url }}<a href="{{ .url }}">{{ .name }}</a>{{ else }}{{ .name }}{{ end }}</li>
+                    {{ end }}
+                  </ul>
+                </div>
+              {{ end }}
+
+              {{ with .Params.interests }}
+                <div class="infobox__block">
+                  <p class="eyebrow infobox__label">Interests</p>
+                  <ul class="infobox__list">
+                    {{ range . }}<li>{{ . }}</li>{{ end }}
+                  </ul>
+                </div>
+              {{ end }}
+
+              {{ with .Params.education }}
+                <div class="infobox__block">
+                  <p class="eyebrow infobox__label">Education</p>
+                  <div class="edu">
+                    {{ range . }}
+                      <div class="edu__row">
+                        <span class="mono edu__year">{{ .year }}</span>
+                        <span>
+                          <span class="edu__course">{{ .course }}</span><br>
+                          <span class="edu__where">{{ .where }}</span>
+                        </span>
+                      </div>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ end }}
+
+              {{ with .Params.elsewhere }}
+                <div class="infobox__block">
+                  <p class="eyebrow infobox__label">Elsewhere</p>
+                  <ul class="infobox__list">
+                    {{/* Go percent-encodes parentheses in an href even with safeURL --
+                         safeURL only skips the scheme check, not the normaliser -- which
+                         rewrites the ADS query string. Emit the whole attribute verbatim
+                         instead. These URLs come from front matter, not user input. */}}
+                    {{ range . }}
+                      {{ $href := printf "href=%q" (replace .url "&" "&amp;") | safeHTMLAttr }}
+                      <li><a {{ $href }}>{{ .name }}</a></li>
+                    {{ end }}
+                  </ul>
+                </div>
+              {{ end }}
+
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </article>
+{{ end }}

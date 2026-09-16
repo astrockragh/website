@@ -1,0 +1,5 @@
+{{ $type := .Get 0 | default (.Get "type") | default "note" }}
+<aside class="callout callout--{{ $type }}">
+  <span class="callout__label mono">{{ $type }}</span>
+  <div class="callout__body">{{ .Inner | markdownify }}</div>
+</aside>
