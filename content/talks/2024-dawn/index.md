@@ -13,5 +13,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_dawn/
+description: "Everything is connected: galaxy properties couple internally, environmentally, and historically — Invited talk in Copenhagen, Denmark, December 2024."
 ---
 

@@ -13,5 +13,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2025_stockholm/
+description: "Everything is connected — Invited talk in Stockholm, Sweden, June 2025."
 ---
 

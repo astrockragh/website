@@ -14,5 +14,6 @@ image: featured.png
 aliases:
 - /talk/2026_cca_mlxastro-copy/
 - /talk/2026_cca_mlxastro/
+description: "Galaxies, their environments, and formation histories — Invited talk in NYC, NY, March 2026."
 ---
 

@@ -14,5 +14,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2025_harvard_hernquist/
+description: "Galaxies, their assembly and environments, from the local Universe to Cosmic Dawn — Invited talk in Cambridge, MA, September 2025."
 ---
 

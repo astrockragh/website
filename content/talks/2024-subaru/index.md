@@ -11,5 +11,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_subaru/
+description: "Airglow and the Subaru Night Sky Spectrograph (SuNSS) — Invited talk in Hilo, Hawai'i, USA, May 2024."
 ---
 

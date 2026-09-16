@@ -13,5 +13,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2026_oxford_highz/
+description: "Galaxy Physics at Cosmic Dawn from Clustering and Abundances — Invited talk in Oxford, UK, June 2026."
 ---
 

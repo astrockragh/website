@@ -14,6 +14,7 @@ url_code: https://colab.research.google.com/drive/1zOxLB5QQAVqfR6FIjQ3YTRnRy0rGG
 image: featured.png
 aliases:
 - /talk/2024_montreal_summer_school/
+description: "Invited talk in Montréal, Québec, June 2024 — This summer school lecture included two notebook tutorials, which can be found here:."
 ---
 
 This summer school lecture included two notebook tutorials, which can be found here:

@@ -14,5 +14,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_boulder/
+description: "New perspectives in galaxy formation — Invited talk at CU Boulder Friday Seminar in Boulder, Colorado, September 2024."
 ---
 

@@ -12,5 +12,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_cca_most_massive/
+description: "The most massive galaxy in the Universe — Invited talk in CCA, NYC, March 2024."
 ---
 

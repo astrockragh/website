@@ -13,5 +13,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2025_ut_austin/
+description: "Everything is connected — Invited talk in Austin, TX, December 2025."
 ---
 

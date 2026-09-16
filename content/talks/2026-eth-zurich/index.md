@@ -13,4 +13,5 @@ tags:
 projects:
 - most-massive-environment
 - gnn-environment
+description: "The equivalence of assembly and environment for galaxies — Invited talk at ETH Zürich in Zürich, Switzerland, November 2026."
 ---

@@ -1,5 +1,6 @@
 ---
 title: Home
+description: "I build statistical and machine-learning models to learn about galaxies through cosmic time, from few to many, from near to far."
 ---
 I like **modelling and measuring**.
 

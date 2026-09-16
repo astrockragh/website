@@ -14,5 +14,6 @@ image: featured.png
 aliases:
 - /talk/2025_perimeter-copy/
 - /talk/2025_perimeter/
+description: "Clustering and galaxy environments from the Local Universe to Cosmic Dawn — Invited talk in Waterloo, ON, November 2025."
 ---
 

@@ -31,6 +31,7 @@ aliases:
 - /talk/tsne_ucph/
 tags:
 - Contributed
+description: "Contributed talk at DAWN Cake Talk, June 2020 — Talk given as part of DAWN weekly cake talk, while the project was still in development phase"
 ---
 
 <!-- 

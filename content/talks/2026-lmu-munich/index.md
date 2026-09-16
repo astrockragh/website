@@ -11,4 +11,5 @@ tags:
 - Invited
 projects:
 - ir-optical
+description: "The wonders of data driven science with galaxy spectra — Invited talk at LMU Munich in Munich, Germany, November 2026."
 ---

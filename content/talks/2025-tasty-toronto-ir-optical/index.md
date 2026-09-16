@@ -13,5 +13,6 @@ projects:
 image: featured.jpg
 aliases:
 - /talk/2025_tasty_toronto_ir_optical/
+description: "The Optical and Infrared Are Connected — Contributed talk at TASTY Seminar in Toronto, ON, November 2025."
 ---
 

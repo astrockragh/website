@@ -14,5 +14,6 @@ image: featured.png
 aliases:
 - /talk/2025_stsci_jhu-copy/
 - /talk/2025_stsci_jhu/
+description: "Everything is connected — Invited talk in Baltimore, MD, December 2025."
 ---
 

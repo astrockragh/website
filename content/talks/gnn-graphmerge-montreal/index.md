@@ -34,6 +34,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/gnn_graphmerge_montreal/
+description: "Invited talk at Student seminar series at the University of Montreal, March 2022 — For the first time ever, we show that it is possible to use full merger histories to emulate SAMs with Machine Learning."
 ---
 
 <!-- 

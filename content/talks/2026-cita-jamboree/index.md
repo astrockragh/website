@@ -13,4 +13,5 @@ tags:
 projects:
 - most-massive-environment
 - gnn-environment
+description: "The equivalence of assembly and environment for galaxies — Contributed talk at CITA Jamboree in Toronto, ON, October 2026."
 ---

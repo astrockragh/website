@@ -14,5 +14,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2026_dawn/
+description: "Galaxy Physics at Cosmic Dawn from Clustering and Abundances — Contributed talk in Helsingør, Denmark, April 2026."
 ---
 

@@ -14,6 +14,7 @@ tags:
 projects:
 - neutrino-ml
 image: featured.png
+description: "Talk at Internal Niels Bohr Talk, June 2021 — We present our recent improvements over the internal IceCube collaborations state of the art in neutrino path reconstruction."
 ---
 
 We present our recent improvements over the internal IceCube collaborations state of the art in neutrino path reconstruction. The precision and speed gain (10% better precision, $10^6$ times faster) are mainly due to encoding the detector structure as a graph, and learning a high dimensional representation for the track and and energy of the particles.

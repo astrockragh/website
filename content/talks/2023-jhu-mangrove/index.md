@@ -12,5 +12,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2023_jhu_mangrove/
+description: "How to build a galaxy — Invited talk in Baltimore, USA, June 2023."
 ---
 

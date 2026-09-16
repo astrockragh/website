@@ -14,5 +14,6 @@ image: featured.png
 aliases:
 - /talk/2026_eas_highz-copy/
 - /talk/2026_eas_highz/
+description: "Galaxy Physics at Cosmic Dawn from Clustering and Abundances — Contributed talk in Lausanne, Switzerland, June 2026."
 ---
 

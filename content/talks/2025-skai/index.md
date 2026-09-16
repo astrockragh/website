@@ -13,5 +13,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2025_skai/
+description: "Everything is connected — Invited talk in Chicago, IL, November 2025."
 ---
 

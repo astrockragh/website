@@ -11,4 +11,5 @@ aliases:
 - /publication/lesniewska-jespersen-etal-2022/
 - /publication/steinhardt-jespersen-linzer-2021/
 - /publication/weaver-kauffmann-ilbert-mc-cracken-moneti-toft-brammer-shuntov-davidzon-hsieh-etal-2022/
+description: "Refereed publications by Christian Kragh Jespersen, maintained on NASA ADS, Google Scholar and ORCID rather than duplicated here."
 ---

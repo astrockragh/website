@@ -34,6 +34,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/gnn_graphmerge_brown/
+description: "Invited talk at Graduate Student talk series, April 2022 — For the first time ever, we show that it is possible to use full merger histories to emulate SAMs with Machine Learning."
 ---
 
 <!-- 

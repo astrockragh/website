@@ -13,5 +13,6 @@ url_pdf: https://ui.adsabs.harvard.edu/abs/2025arXiv250303816J/abstract
 image: featured.png
 aliases:
 - /talk/2025_itc_luncheon_ir_optical/
+description: "The optical and infrared are connected — Contributed talk at ITC Luncheon in Cambridge, MA, September 2025."
 ---
 

@@ -12,5 +12,6 @@ projects:
 image: featured.jpg
 aliases:
 - /talk/2026_eas_opticalir/
+description: "Connecting the Optical and Infrared — Contributed talk in Lausanne, Switzerland, June 2026."
 ---
 

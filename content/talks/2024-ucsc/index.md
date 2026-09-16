@@ -24,5 +24,6 @@ tags:
 image: featured.png
 aliases:
 - /talk/2024_ucsc/
+description: "Contributed talk at UCSC Galaxy Formation Workshop, August 2024 — Galaxies are conventionally thought of as composites of physically distinct components, making the components separable."
 ---
 

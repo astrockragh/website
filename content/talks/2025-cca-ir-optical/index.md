@@ -25,5 +25,6 @@ tags:
 image: featured.jpg
 aliases:
 - /talk/2025_cca_ir_optical/
+description: "Contributed talk at CCA Cosmology X ML meeting, March 2025 — Galaxies are conventionally thought of as composites of physically distinct components, making the components separable."
 ---
 

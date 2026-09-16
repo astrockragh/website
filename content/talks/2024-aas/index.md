@@ -11,5 +11,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_aas/
+description: "Airglow and the Subaru Night Sky Spectrograph (SuNSS) — Contributed talk in New Orleans, USA, January 2024."
 ---
 

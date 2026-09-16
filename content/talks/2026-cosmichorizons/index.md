@@ -21,5 +21,6 @@ image: featured.png
 aliases:
 - /talk/2026_cosmichorizons-copy/
 - /talk/2026_cosmichorizons/
+description: "Contributed talk in Charlottesville, Virginia, July 2026 — Understanding the joint evolution of galaxies and halos is central to galaxy evolution and cosmology."
 ---
 

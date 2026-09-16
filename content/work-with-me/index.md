@@ -3,6 +3,7 @@ title: Want to work with me?
 kicker: Students and collaborators
 aliases:
 - /workwithme/
+description: "Now that I hold a few different Fellowships across the University of Toronto and CITA, with long-term visits at Université de Montréal and Stockholm…"
 ---
 
 <img src="old.jpg" alt="Teaching about Graph Neural Networks at the Kavli Institute for Theoretical Physics in 2023" style="width: 60%; display: block; margin: 18pt auto;">

@@ -12,5 +12,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2026_sdss/
+description: "The Geometric Structure and Physical Parameters of two DIB Carriers in APOGEE — Invited talk online, August 2026."
 ---
 

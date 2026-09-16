@@ -20,5 +20,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2025_adam_massive/
+description: "Contributed talk at Annual Danish Astronomy Meeting, May 2025 — The existence of ultramassive quiescent galaxies, which have already completed their life cycle at a mere 7% of the age of the Universe, is among the most…"
 ---
 

@@ -14,5 +14,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_cambridge/
+description: "Everything is connected: galaxy properties couple internally, environmentally, and historically — Invited talk in Cambridge, United Kingdom, December 2024."
 ---
 

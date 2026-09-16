@@ -34,6 +34,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/ltu_mangrove/
+description: "Invited talk at Learning the Universe Meeting, March 2022 — Doing fast and precise forward simulations of galaxies will be of fundamental importance to fulfilling the LtU collaboration goals. In this talk I'll show how we can…"
 ---
 
 <!-- 

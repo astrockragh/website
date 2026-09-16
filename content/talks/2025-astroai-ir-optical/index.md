@@ -14,5 +14,6 @@ projects:
 image: featured.jpg
 aliases:
 - /talk/2025_astroai_ir_optical/
+description: "Connecting the optical and infrared using autoencoded optical spectra — Contributed talk at AstroAI Group Meeting in Cambridge, MA, September 2025."
 ---
 

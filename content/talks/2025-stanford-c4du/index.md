@@ -21,5 +21,6 @@ image: featured.png
 aliases:
 - /talk/2025_stanford_c4du-copy/
 - /talk/2025_stanford_c4du/
+description: "Invited talk in Stanford, CA, October 2025 — Understanding the joint evolution of galaxies and halos is central to galaxy evolution and cosmology."
 ---
 

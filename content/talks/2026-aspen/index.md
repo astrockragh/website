@@ -15,5 +15,6 @@ image: featured.png
 aliases:
 - /talk/2026_aspen-copy/
 - /talk/2026_aspen/
+description: "Galaxy Physics at Cosmic Dawn from Clustering and Abundances — Contributed talk in Aspen, CO, March 2026."
 ---
 

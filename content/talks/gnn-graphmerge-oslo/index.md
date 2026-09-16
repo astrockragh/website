@@ -36,6 +36,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/gnn_graphmerge_oslo/
+description: "Invited talk at Euclid Consortium Meeting 2022, April 2022 — For the first time ever, we show that it is possible to use full merger histories to emulate SAMs with Machine Learning and vastly outperform the state-of-the-art in…"
 ---
 
 <!-- 

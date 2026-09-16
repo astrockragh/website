@@ -16,4 +16,5 @@ featured: false
 image: blackboard.jpg
 tags:
 - Contributed
+description: "Contributed talk at CITA Blackboard Talk in Toronto, ON, November 2026."
 ---

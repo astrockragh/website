@@ -25,5 +25,6 @@ tags:
 image: featured.jpg
 aliases:
 - /talk/2025_bristol_sbi/
+description: "Contributed talk at Simulation Based Inference for Galaxy Evolution, May 2025 — Galaxies are traditionally modeled as composites of separable components, each dominating distinct wavelength regimes."
 ---
 

@@ -13,5 +13,6 @@ projects:
 url_code: https://ui.adsabs.harvard.edu/abs/2021ApJ...923....8S/abstract
 aliases:
 - /talk/highz_gal/
+description: "Finding High Redshift galaxies with JWST — Contributed talk in Princeton, November 2021."
 ---
 

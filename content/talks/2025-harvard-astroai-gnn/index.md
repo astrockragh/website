@@ -14,5 +14,6 @@ url_code: https://colab.research.google.com/drive/1K6fvzUP33UWkXWoYxi5nt1ITwjXYH
 image: featured.png
 aliases:
 - /talk/2025_harvard_astroai_gnn/
+description: "Graphs Neural Networks and Galaxies — Invited talk in Cambridge, MA, September 2025."
 ---
 

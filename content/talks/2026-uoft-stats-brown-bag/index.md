@@ -13,4 +13,5 @@ tags:
 projects:
 - most-massive-jwst
 - high-z-jwst
+description: "Extreme value statistics in the early Universe — Contributed talk at Statistical Sciences Brown Bag Seminar in Toronto, ON, October 2026."
 ---

@@ -35,6 +35,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/gnn_graphmerge_cca/
+description: "Invited talk at Flatiron Institute Center for Computational Astrophysics Cosmology x Machine Learning seminar series, March 2022 — For the first time ever, we show that it is possible to use full merger histories to emulate SAMs…"
 ---
 
 <!-- 

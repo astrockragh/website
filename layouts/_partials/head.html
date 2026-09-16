@@ -1,7 +1,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ if .IsHome }}{{ site.Title }} — {{ site.Params.hero.headline }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+{{/* Hugo's .Description reads only the `description` field, so pages that
+     carry a curated `summary` were silently falling back to the site-wide
+     line -- 36 pages shared one description before this. Resolved once here
+     and reused by the og: and twitter: tags below. */}}
+{{ $desc := "" }}
+{{ with .Description }}{{ $desc = . }}{{ else }}
+  {{ with .Params.summary }}{{ $desc = . }}{{ else }}{{ $desc = site.Params.description }}{{ end }}
+{{ end }}
+{{/* A summary written in markdown must not reach a meta tag as markdown:
+     plainify only removes HTML, so link syntax and emphasis survive it. */}}
+{{ $desc = $desc | plainify
+    | replaceRE `!\[[^\]]*\]\([^)]*\)` ""
+    | replaceRE `\[([^\]]*)\]\([^)]*\)` "$1"
+    | replaceRE `https?://[^\s)]+` ""
+    | replaceRE `[*_#]+` ""
+    | replaceRE `\s+` " " }}
+{{ $desc = $desc | strings.TrimSpace | truncate 200 }}
+<meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ site.Params.author }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <meta name="color-scheme" content="dark">
@@ -23,7 +40,7 @@
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
-<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta property="og:description" content="{{ $desc }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:image" content="{{ $og }}">
 <meta property="og:image:type" content="image/jpeg">
@@ -33,7 +50,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}">
-<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="twitter:description" content="{{ $desc }}">
 <meta name="twitter:image" content="{{ $og }}">
 
 {{/* Spiral galaxy mark. SVG for modern browsers, PNG/ICO fallbacks, and a

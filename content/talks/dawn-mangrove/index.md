@@ -38,6 +38,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/dawn_mangrove/
+description: "Invited talk at DAWN Cake Talk, August 2022 — I will introduce a new Machine Learning based model for mapping between dark matter and galaxies, called Mangrove. I'll show improvements in both precision and speed compared to…"
 ---
 
 <!-- 

@@ -24,5 +24,6 @@ tags:
 image: featured.png
 aliases:
 - /talk/2024_cca_ir/
+description: "Contributed talk at CCA Galaxy Formation meeting, October 2024 — Galaxies are conventionally thought of as composites of physically distinct components, making the components separable."
 ---
 

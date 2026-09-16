@@ -12,5 +12,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2026_cambridgesbi/
+description: "Galaxies, their environments, and formation histories — Invited talk in Cambridge, UK, June 2026."
 ---
 

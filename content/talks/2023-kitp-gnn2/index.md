@@ -12,6 +12,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/2023_kitp_gnn2/
+description: "Contributed talk in Santa Barbare, USA, March 2023 — Blackboard talk done for the 2023 \"Building a physical understanding of galaxy evolution with data-driven astronomy\" KITP workshop."
 ---
 
 Blackboard talk done for the 2023 "Building a physical understanding of galaxy evolution with data-driven astronomy" KITP workshop [https://datadrivengalaxyevolution.github.io/](https://datadrivengalaxyevolution.github.io/).

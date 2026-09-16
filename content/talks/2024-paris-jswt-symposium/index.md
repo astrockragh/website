@@ -12,5 +12,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_paris_jswt_symposium/
+description: "The most massive galaxy we will find with JWST — Contributed talk in Paris, France, December 2024."
 ---
 

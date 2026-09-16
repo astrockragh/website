@@ -34,6 +34,7 @@ aliases:
 - /talk/tsne_uot/
 tags:
 - Invited
+description: "Invited talk at University of Toronto Machine Learning/Statistics for Astrophysics seminar series, April 2021 — Invited by Joshua S. Speagle to present our findings from the GRB classification…"
 ---
 
 <!-- 

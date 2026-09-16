@@ -18,6 +18,7 @@ projects:
 image: featured.png
 aliases:
 - /talk/ltu_discussion/
+description: "Invited talk at Learning the Universe Discussion, September 2022 — Leading the Accelerated Forward Modelling discussion on our models for different aspects of the dark matter - galaxy connection"
 ---
 
 <!-- 

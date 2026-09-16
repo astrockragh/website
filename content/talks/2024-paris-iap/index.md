@@ -14,5 +14,6 @@ projects:
 image: featured.png
 aliases:
 - /talk/2024_paris_iap/
+description: "Galaxies, their dark matter environments, formation histories, and couplings — Invited talk in Paris, France, November 2024."
 ---
 

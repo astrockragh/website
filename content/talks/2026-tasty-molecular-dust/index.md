@@ -11,4 +11,5 @@ tags:
 - Invited
 projects:
 - molecule-simulator
+description: "The Geometric Structure and Physical Parameters of two DIB Carriers in APOGEE — Invited talk at TASTY Seminar in Toronto, ON, September 2026."
 ---
