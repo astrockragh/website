@@ -21,6 +21,18 @@
 <meta name="description" content="{{ $desc }}">
 <meta name="author" content="{{ site.Params.author }}">
 <link rel="canonical" href="{{ .Permalink }}">
+
+{{/* Search-engine ownership verification. Paste the token from Google Search
+     Console / Bing Webmaster Tools into hugo.toml:
+
+       [params.verify]
+         google = "..."
+         bing   = "..."
+
+     The meta-tag method is used rather than the HTML-file method because the
+     file would have to survive every rebuild of public/. */}}
+{{ with site.Params.verify.google }}<meta name="google-site-verification" content="{{ . }}">{{ end }}
+{{ with site.Params.verify.bing }}<meta name="msvalidate.01" content="{{ . }}">{{ end }}
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#06070b">
 

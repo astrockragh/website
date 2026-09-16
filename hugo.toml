@@ -15,6 +15,18 @@ summaryLength = 30
   description = "Modelling and measuring the Universe. Schmidt AI in Science / CITA Fellow."
   email = "christian.jespersen@utoronto.ca"
 
+# Cookie-less analytics -- no consent banner needed. Set ONE.
+# GoatCounter: sign up at goatcounter.com, the code is your subdomain.
+# Cloudflare:  dash.cloudflare.com -> Web Analytics -> the beacon token.
+[params.analytics]
+  goatcounter = ""
+  cloudflare  = ""
+
+# Paste the verification tokens from Search Console / Bing Webmaster Tools.
+[params.verify]
+  google = ""
+  bing   = ""
+
 [params.hero]
   eyebrow = "Schmidt AI in Science Fellow · CITA Fellow · University of Toronto"
   headline = "Modelling and measuring the Universe"
