@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+{{/* The generated sitemap lists real pages only -- the alias stubs for old
+     Wowchemy URLs carry <meta name="robots" content="noindex"> and are not
+     included, so crawlers follow them through to the new URL instead of
+     indexing duplicates. */}}
+Sitemap: {{ "sitemap.xml" | absURL }}

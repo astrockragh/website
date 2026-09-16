@@ -1,0 +1,78 @@
+{{/* JSON-LD. The point of the Person block is to tell search engines that this
+     site and the ORCID / Scholar / ADS identities are one entity -- without
+     sameAs there is nothing linking them, which is why the Princeton page
+     outranked this site on his own name. sameAs is read from the About page's
+     `elsewhere` list so there is a single source of truth; relative entries
+     (the CV) are skipped because sameAs must be absolute. */}}
+{{ $about := site.GetPage "/about" }}
+{{ $same := slice }}
+{{ with $about }}
+  {{ range .Params.elsewhere }}
+    {{/* sameAs means "this is the same entity elsewhere", so it takes profile
+         pages only -- the ADS entry is a search query and does not qualify. */}}
+    {{ if and (hasPrefix .url "http") (not (strings.Contains .url "/search")) }}
+      {{ $same = $same | append .url }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $same = $same | append "https://twitter.com/AstroCKragh" }}
+
+{{ $person := dict
+  "@type" "Person"
+  "@id"   (printf "%s#person" (absURL "/"))
+  "name"  site.Params.author
+  "url"   (absURL "/")
+  "image" (absURL "/img/portrait.jpg")
+  "email" (printf "mailto:%s" site.Params.email)
+  "jobTitle" "Eric and Wendy Schmidt AI in Science Fellow; CITA Postdoctoral Fellow"
+  "description" site.Params.description
+  "knowsAbout" (slice "Astrophysics" "Galaxy formation" "Machine learning"
+                      "Cosmology" "Astrostatistics" "Astronomical instrumentation")
+  "affiliation" (slice
+     (dict "@type" "Organization" "name" "Canadian Institute for Theoretical Astrophysics" "url" "https://www.cita.utoronto.ca/")
+     (dict "@type" "Organization" "name" "David A. Dunlap Department of Astronomy & Astrophysics, University of Toronto" "url" "https://www.astro.utoronto.ca/")
+     (dict "@type" "Organization" "name" "Department of Statistical Sciences, University of Toronto" "url" "https://www.statistics.utoronto.ca/"))
+  "alumniOf" (dict "@type" "CollegeOrUniversity" "name" "Princeton University" "url" "https://www.princeton.edu/")
+  "identifier" (dict "@type" "PropertyValue" "propertyID" "ORCID" "value" "https://orcid.org/0000-0002-8896-6496")
+  "sameAs" $same }}
+
+{{ $graph := slice $person }}
+
+{{ if .IsHome }}
+  {{ $graph = $graph | append (dict
+      "@type" "WebSite" "@id" (printf "%s#website" (absURL "/"))
+      "url" (absURL "/") "name" site.Title
+      "description" site.Params.description
+      "inLanguage" "en"
+      "publisher" (dict "@id" (printf "%s#person" (absURL "/")))) }}
+{{ end }}
+
+{{ if eq .Section "talks" }}
+  {{ $ev := dict
+      "@type" "Event" "name" .Title "url" .Permalink
+      "startDate" (.Date.Format "2006-01-02")
+      "eventStatus" "https://schema.org/EventScheduled"
+      "performer" (dict "@id" (printf "%s#person" (absURL "/"))) }}
+  {{ with .Params.event }}
+    {{ $ev = merge $ev (dict "organizer" (dict "@type" "Organization" "name" .)) }}
+  {{ end }}
+  {{ with .Params.location }}
+    {{ $ev = merge $ev (dict "location" (dict "@type" "Place" "name" .)) }}
+  {{ end }}
+  {{ with .Params.abstract }}{{ $ev = merge $ev (dict "description" (. | plainify | truncate 300)) }}{{ end }}
+  {{ $graph = $graph | append $ev }}
+{{ end }}
+
+{{ if eq .Section "blog" }}
+  {{ $graph = $graph | append (dict
+      "@type" "BlogPosting" "headline" .Title "url" .Permalink
+      "datePublished" (.Date.Format "2006-01-02")
+      "dateModified" (.Lastmod.Format "2006-01-02")
+      "author" (dict "@id" (printf "%s#person" (absURL "/")))
+      "description" (.Params.description | default (.Summary | plainify | truncate 200))
+      "inLanguage" "en") }}
+{{ end }}
+
+{{/* safeJS: html/template otherwise escapes this into a JS string literal, so
+     the JSON arrives double-encoded and no crawler can read it. */}}
+<script type="application/ld+json">{{ (dict "@context" "https://schema.org" "@graph" $graph) | jsonify | safeJS }}</script>

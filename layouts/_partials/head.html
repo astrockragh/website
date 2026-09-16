@@ -3,6 +3,7 @@
 <title>{{ if .IsHome }}{{ site.Title }} — {{ site.Params.hero.headline }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
 <meta name="author" content="{{ site.Params.author }}">
+<link rel="canonical" href="{{ .Permalink }}">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#06070b">
 
@@ -12,6 +13,12 @@
      the first graph pass (10-11s) has edges too faint to survive being scaled
      down to a preview thumbnail. Regenerate with tools/make_og_cover.sh. */}}
 {{ $og := "img/og-cover.jpg" | absURL }}
+{{/* A shared talk or project should preview its own figure, not the reel
+     still. Cropped to 1200x630 because that is what the platforms expect;
+     pages with no image of their own keep the site-wide cover. */}}
+{{ with .Resources.GetMatch (.Params.image | default "featured.*") }}
+  {{ with .Fill "1200x630 Center" }}{{ $og = .Permalink }}{{ end }}
+{{ end }}
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:locale" content="en_US">
@@ -52,3 +59,5 @@
   {{ $css := . | toCSS (dict "targetPath" "css/main.css" "outputStyle" "compressed") | fingerprint }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
 {{ end }}
+
+{{ partial "schema.html" . }}

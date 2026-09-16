@@ -1,0 +1,21 @@
+{{/* Cookie-less analytics. Nothing here sets a cookie or stores anything on
+     the visitor's device, so no consent banner is required in the EU/UK --
+     which is why this is not Google Analytics.
+
+     Enable ONE by putting its id in hugo.toml:
+
+       [params.analytics]
+         goatcounter = "yourcode"        # -> yourcode.goatcounter.com
+         # cloudflare = "<token>"        # Cloudflare Web Analytics beacon token
+
+     Only emitted in production, so `hugo server` never pollutes the numbers. */}}
+{{ if hugo.IsProduction }}
+  {{ with site.Params.analytics.goatcounter }}
+    <script data-goatcounter="https://{{ . }}.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+  {{ end }}
+  {{ with site.Params.analytics.cloudflare }}
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon='{"token": "{{ . }}"}'></script>
+  {{ end }}
+{{ end }}
