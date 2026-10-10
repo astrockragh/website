@@ -5,7 +5,7 @@ title: Galaxy Physics at Cosmic Dawn from Clustering
 summary: Numerous models have been proposed to explain the unexpected wealth of galaxies
   at Cosmic Dawn revealed by JWST. These models are all tuned to reproduce the abundance
   of galaxies, requiring new measurements to figure out which ones are actually right.
-  An obvious candidate for these constraints come from clustering, but to do so with
+  An obvious candidate for these constraints comes from clustering, but to do so with
   JWST requires innovating methodology. Here I show how clustering can be measured
   from pure-parallel JWST surveys, and how it gives us a unique handle on why galaxies
   seem to not be going through a wild and bursty teenage phase.
@@ -32,7 +32,7 @@ aliases:
 
 One of the most exciting things happening in astronomy right now is the amazing and unexpected abundance of galaxies in the extremely early Universe, what we call **Cosmic Dawn**!
 
-This post summarises two recent papers on measuring galaxy clustering at Cosmic Dawn and what it tells us about how early galaxies form. I will start with the [big picture](#the-physics-of-galaxies-in-the-baby-universe) of why the early Universe is so puzzling right now, then walk through [why clustering helps](#so-how-can-we-know-which-model-is-right-clustering) and the two independent methods we use --- the [traditional HOD approach](#the-traditional-method---halo-occupation-distribution) and a [new technique based on cosmic variance](#the-new-method---cosmic-variance). [Our results from both methods](#so-now-what-do-we-then-actually-measure-in-the-real-universe) point in the same direction, which has [important implications](#what-does-this-mean-for-galaxy-physics?) for what kind of physics are relevant in the baby Universe. In the end I'll give some [thoughts on what comes next](#what-now).
+This post summarises two recent papers on measuring galaxy clustering at Cosmic Dawn and what it tells us about how early galaxies form. I will start with the [big picture](#the-physics-of-galaxies-in-the-baby-universe) of why the early Universe is so puzzling right now, then walk through [why clustering helps](#so-how-can-we-know-which-model-is-right-clustering) and the two independent methods we use --- the [traditional HOD approach](#the-traditional-method---halo-occupation-distribution) and a [new technique based on cosmic variance](#the-new-method---cosmic-variance). [Our results from both methods](#so-now-what-do-we-then-actually-measure-in-the-real-universe) point in the same direction, which has [important implications](#what-does-this-mean-for-galaxy-physics) for what kind of physics are relevant in the baby Universe. In the end I'll give some [thoughts on what comes next](#what-now).
 
 The two papers are [Weibel & Jespersen et al. (2025)](https://ui.adsabs.harvard.edu/abs/2025arXiv251214212W/abstract) and [Paquereau et al. (2025)](https://ui.adsabs.harvard.edu/abs/2025A%26A...702A.163P/abstract).
 
@@ -78,17 +78,17 @@ The classical way of measuring clustering is through the two-point correlation f
 <a href="https://commons.wikimedia.org/wiki/File:Two-point-correlation-function-astronomy.webm">Wikimedia Commons</a>.
 Not my own work — included here because it illustrates pair counting more clearly than a static figure.</p>
 
-Once you have a measured correlation function, you can interpret it through a **Halo Occupation Distribution** (HOD) framework, which parametrizes the average number of galaxies per halo as a function of halo mass. Fitting an HOD to the data lets you infer the characteristic halo masses that host your galaxy sample, and from there the implied star formation efficiency and clustering amplitude.
+Once you have a measured correlation function, you can interpret it through a **Halo Occupation Distribution** (HOD) framework, which parametrises the average number of galaxies per halo as a function of halo mass. Fitting an HOD to the data lets you infer the characteristic halo masses that host your galaxy sample, and from there the implied star formation efficiency and clustering amplitude.
 
 However, JWST is almost perfectly designed to *not* be able to measure correlation functions well. The issue is the small field of view. Correlation functions require large, continuous volumes to get enough galaxy pairs at all relevant separations, and most JWST surveys cover tiny patches of sky. There is really only one JWST survey large enough: [COSMOS-Web](https://cosmos.astro.caltech.edu/), which mapped 0.54 deg$^2$ with NIRCam across four filters (F115W, F150W, F277W, F444W), reaching 5$\sigma$ point-source depths of ~27.5--28.2 mag.[^4] COSMOS-Web also benefits from the incredible multi-wavelength legacy of the COSMOS field, with deep ground-based and HST data enabling robust photometric redshifts.
 
 ![The footprint of the COSMOS survey](COSMOS_footprint.png)
 
-[Paquereau et al. (2025)](https://ui.adsabs.harvard.edu/abs/2025A%26A...702A.163P/abstract) used exactly this dataset to carry out the first mass-limited angular clustering measurement all the way out to $z \sim 12$ in a single, self-consistent analysis. Their HOD fits show that at $z > 8$, the measured clustering amplitude is consistently high --- galaxies at these redshifts live in massive halos and are forming stars efficiently. This is the first of our two independent tests of galaxy formation models, and I will show the results [below](#traditional-clustering-method).
+[Paquereau et al. (2025)](https://ui.adsabs.harvard.edu/abs/2025A%26A...702A.163P/abstract) used exactly this dataset to carry out the first mass-limited angular clustering measurement all the way out to $z \sim 12$ in a single, self-consistent analysis. Their HOD fits show that at $z > 8$, the measured clustering amplitude is consistently high --- galaxies at these redshifts live in massive halos and are forming stars efficiently. This is the first of our two independent tests of galaxy formation models, and I will show the results [below](#the-traditional-clustering-method).
 
 ## The new method - Cosmic Variance
 
-While JWST is poorly suited for two-point correlation functions and classical clustering analyses, we just need to be a little creative and come up with new ways of measuring clustering. Our new method leverages another consequence of high clustering --- that the number counts of galaxies between different fields vary increasingly with increasing clustering amplitudes. This clustering-induced field-to-field variance is known as **cosmic variance**, and it is something [I have worked on extensively](https://astrockragh.github.io/project). In short, it makes the number of galaxies in a given field more dispersed, so that some fields are basically empty, whereas others host enormous amounts of galaxies. You can see a demonstration of how increasing clustering gives a higher two-point function amplitude and more dispersed number counts in simulated fields in the figure below.
+While JWST is poorly suited for two-point correlation functions and classical clustering analyses, we just need to be a little creative and come up with new ways of measuring clustering. Our new method leverages another consequence of high clustering --- that the number counts of galaxies between different fields vary increasingly with increasing clustering amplitudes. This clustering-induced field-to-field variance is known as **cosmic variance**, and it is something [I have worked on extensively](/projects/). In short, it makes the number of galaxies in a given field more dispersed, so that some fields are basically empty, whereas others host enormous numbers of galaxies. You can see a demonstration of how increasing clustering gives a higher two-point function amplitude and more dispersed number counts in simulated fields in the figure below.
 
 <!-- --- Figure showing two-point correlation functions, Number count histograms and simulated fields for 3 different clustering strengths. -->
 ![A demonstration figure showing how clustering can be measured in many different ways](galaxy_simulation_v3_4.png)
@@ -99,7 +99,7 @@ Therefore, if we have enough sampled fields, we can directly **measure** the clu
 ![PANORAMIC logo](PANORAMIC_logo.png)
 ![Overview of the PANORAMIC pointings](PANORAMIC_footprint.png)
 
-Because of this survey strategy, we now have __independent__ fields spread all over the sky, perfect for doing the kind of science we want to do! You can also see a randomly sampled PANORAMIC pointing  (out of ~35)(right below here.
+Because of this survey strategy, we now have __independent__ fields spread all over the sky, perfect for doing the kind of science we want to do! You can also see a randomly sampled PANORAMIC pointing (out of ~35) right below here.
 
 ![Randomly selected PANORAMIC pointing](panoramic_random_field.png)
 
@@ -108,12 +108,12 @@ Because of this survey strategy, we now have __independent__ fields spread all o
 This section will touch on the formal and mathematical aspects of how to fit for the cosmic variance from a set of fields. Feel free to skip if you are looking for the scientific interpretation of our results! To get to the results we need
 
 - a set of $k$ fields with a set of associated galaxy number counts $\{N_0, N_1, ..., N_k\}$. These should be completeness-corrected before you start doing anything!
-- a distribution characterised by a mean and variance ($\mu, \sigma^2$). The distribution has to fulfill a few conditions:
+- a distribution characterised by a mean and variance ($\mu, \sigma^2$). The distribution has to fulfil a few conditions:
   1. It has to approximate the Poisson distribution in the limit of $\sigma^2 \rightarrow \mu$, the appropriate distribution when no clustering is present.
   2. It has to allow for $\sigma$ to be set independently of $\mu$, allowing $\sigma$ to encode the clustering strength at a fixed mean number density.
   3. It has to be strictly positive.
 
-  A few different distributions fulfill these conditions, but the two best are the Gamma distribution and the Negative Binomial. Using either of these is fine, and it does not impact the results we get. I typically use the Gamma, but it does not matter.
+  A few different distributions fulfil these conditions, but the two best are the Gamma distribution and the Negative Binomial. Using either of these is fine, and it does not impact the results we get. I typically use the Gamma, but it does not matter.
 
 - A likelihood function. Given our chosen distribution $p(N \mid \mu, \sigma)$, the log-likelihood for the full set of fields is simply the sum of the individual log-probabilities: $\ln \mathcal{L}(\mu, \sigma) = \sum_{i=1}^{k} \ln\, p(N_i \mid \mu, \sigma)$. However, instead of the traditional Poisson likelihood, we adopt a Negative Binomial likelihood which is less sensitive to outliers.
 
@@ -125,7 +125,7 @@ The honest answer is, as so often in science, kind of. The idea that galaxy coun
 
 More recently, [Cora Uhlemann and collaborators](https://ui.adsabs.harvard.edu/abs/2020MNRAS.495.4006U/abstract) have shown that one-point/counts-in-cells statistics are surprisingly powerful for constraining cosmology, including the neutrino mass. And in the observational sphere, [López-Sanjuan et al. (2015)](https://www.aanda.org/articles/aa/pdf/2015/10/aa26731-15.pdf) and [Cameron et al. (2019)](https://academic.oup.com/mnras/article/483/2/1922/5173113) measured galaxy clustering amplitudes using the cosmic variance/counts-in-cells method in the ALHAMBRA and BoRG surveys, respectively, but at much lower redshift, and in quite different fields.
 
-Finally, there there is [this wonderful paper by Brant Robertson (2010)](https://ui.adsabs.harvard.edu/abs/2010ApJ...716L.229R/abstract), which quite literally suggests the exact same thing we ended up doing. It is an amazing paper, and made a lot of the points that we ended up fumbling our way to independently: that you really should compare to simulations to be safe; the fitting should be done with MCMC; you are biased low if you chop up a single continuous field rather than using truly independent sightlines; many great things! Overall I just really like this paper, and the method has been severely underrated and underutilised.
+Finally, there is [this wonderful paper by Brant Robertson (2010)](https://ui.adsabs.harvard.edu/abs/2010ApJ...716L.229R/abstract), which quite literally suggests the exact same thing we ended up doing. It is an amazing paper, and made a lot of the points that we ended up fumbling our way to independently: that you really should compare to simulations to be safe; the fitting should be done with MCMC; you are biased low if you chop up a single continuous field rather than using truly independent sightlines; many great things! Overall I just really like this paper, and the method has been severely underrated and underutilised.
 
 So what is the novelty for us? We push the highest-$z$ applications from $z \sim 2$ all the way to $z \sim 10$, giving the first-ever $z \geq 10$ measurement of the galaxy clustering amplitude, and it is the first time that this method has been applied to JWST data. Furthermore, we find some really interesting tensions that I will show now, so I would argue that the method is really coming into its own!
 
@@ -137,7 +137,7 @@ We now have two independent methods for measuring clustering, which can be appli
 
 Below, I show the results that we derived [using a traditional HOD approach in the COSMOS-Web survey](https://ui.adsabs.harvard.edu/abs/2025A%26A...702A.163P/abstract). There is a lot of information on this plot, so let us take a look at the most important parts.
 
-1. Our measurements are shown as filled circles with errorbars connected by solid lines. Each colour shows a different mass bin.
+1. Our measurements are shown as filled circles with error bars connected by solid lines. Each colour shows a different mass bin.
 2. The relevant model comparison is to look at the dashed (bursty star formation model) and dash-dotted (no burstiness) lines. These are also calculated per mass bin, so compare only data and model lines with the same colour.
 3. Focus specifically on the dark green measurements at $z \sim 9$. It is easy to see the tension between our measurement and the bursty model, as well as the near-perfect agreement between the measurements and the model with no burstiness.
 
@@ -147,7 +147,7 @@ The cyan measurements are also interesting, but here the model comparison is les
 
 In total, at $z \sim 9$, we get a tension between the data and the bursty model of $\approx 3\sigma$. This is substantial and exciting, but it did not fully convince me at first. I did not feel certain that it was not some weird model systematic driving these results, although the signal was pretty clear. That motivated my second direction for constraining clustering.
 
-## The Cosmic Variance mMthod
+## The Cosmic Variance Method
 
 <!-- The cosmic variance method is a much more model-free way of measuring clustering -->
 As described [above](#the-new-method---cosmic-variance), we must always jointly fit for both the mean and variance when we fit for the cosmic variance. That means that we always get two-dimensional contours in number density -- clustering amplitude space. This is what you can see in the figure below, along with the pre-JWST expectation clearly marked in red. The question is then how we can move to the higher-than-expected abundance of galaxies without lowering the clustering amplitude. That is because a higher galaxy abundance usually comes associated with lower-mass systems, which are less strongly clustered.
@@ -199,7 +199,7 @@ There are two obvious frontiers. The first is on the measurement side: get more 
 
 ### Improving our methodology and measurements
 
-JWST will continue being an incredible discovery machine, and PANORAMIC is not the only pure parallel survey out there. We should all combine our forces and pool our data to get the sample sizes we need for truly precise clustering constraints at $z > 10$. More fields, more sightlines, more statistical power. If the JWST Time Allocation Committee recognises how valuable this is, we may get to triple or quintuple the number of independent sightlines quite soon --- fingers crossed!
+JWST will continue being an incredible discovery machine, and PANORAMIC is not the only pure-parallel survey out there. We should all combine our forces and pool our data to get the sample sizes we need for truly precise clustering constraints at $z > 10$. More fields, more sightlines, more statistical power. If the JWST Time Allocation Committee recognises how valuable this is, we may get to triple or quintuple the number of independent sightlines quite soon --- fingers crossed!
 
 Beyond just adding data, we need to seriously validate these tools at lower redshift. Right now, the cosmic variance method has only been applied in this high-$z$ regime, and even the HOD framework has never been stress-tested in simulations at $z > 8$. Extending both methods down to $z \sim 4$--$6$, where we have much better statistics and complementary spectroscopic data, would let us cross-check the two approaches against each other and against existing results. That kind of validation is essential before we can fully trust what either method tells us at the frontier.
 
